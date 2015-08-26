@@ -2,7 +2,7 @@ $(document).ready(function(){
 	$('#loginbtn').live('click', function() {
 		var that = this;
 		$(this).addClass('loading');
-		var email = $('#email').val();
+		var email = $.trim($('#email').val());
 		var password = $('#password').val();
 		var error_area=$('#error');
 		var err_msg="";
