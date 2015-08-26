@@ -6,8 +6,8 @@ $(document).ready(function(){
 		$('div.error').removeClass('error');
 		$('span.tip').text('');
 
-		var username = $('#username').val();
-		var email = $('#email').val();
+		var username = $.trim($('#username').val());
+		var email = $.trim($('#email').val());
 		var password = $('#password').val();
 		var cfmPwd = $('#cfmPwd').val();
 
