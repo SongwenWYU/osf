@@ -7,7 +7,6 @@
 	<meta charset="UTF-8">
 	<title>登录</title>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/bootstrap2.css">	
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/bootstrap2.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/navbar.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/semantic.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/style.css">
