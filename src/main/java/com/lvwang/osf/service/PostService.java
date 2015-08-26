@@ -129,6 +129,8 @@ public class PostService {
 			
 			map.put("tags", tagsmap.get("tags"));
 		} else {
+			int id = savePost(post);
+			post.setId(id);
 			map.put("tags", new ArrayList<Tag>());
 		}
 				

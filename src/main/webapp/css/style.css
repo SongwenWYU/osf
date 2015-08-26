@@ -1,5 +1,5 @@
 body{
-	font-family: "Helvetica" ,"Arial","Times New Roman";
+	font-family: "Helvetica Neue",Helvetica,"Hiragino Sans GB","STHeitiSC-Light","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
 
 a {
@@ -16,7 +16,8 @@ a {
 }
 
 .postheader{
-    font-weight: bold;
+	font-size: 16px;
+    font-weight: 600;
     margin-bottom: 10px;
  }
  .header{
@@ -164,8 +165,9 @@ a {
 	float: right;
 }
 .post p {
-	line-height: 22px;
-	font-size: 13px;
+	font-family: "Helvetica Neue",Helvetica,"Hiragino Sans GB","STHeitiSC-Light","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+	line-height: 1.5;
+	font-size: 14px;
 }
 .post.like, .post.trash{
 	float: right;
