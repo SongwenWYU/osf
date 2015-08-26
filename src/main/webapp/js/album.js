@@ -10,29 +10,25 @@ $(document).ready(function(){
 	                		success: function (data, status){
 	                				data = jQuery(data).find('pre:first').text();
 	                				data = jQuery.parseJSON(data);
-	                				var $imgCard = $('<div class="card" id="card'+data.id+'">'+
-				    									'<a class="image" href="#">'+
-				      										'<img src="'+img_base_url+data.key+album_thumbnail+'">'+
-				    									'</a>'+
-				    									'<div class="content">'+
-				    										'<textarea rows="" cols="" placeholder="添加描述..."></textarea>'+
-				    									'</div>'+
-				    									'<div class="extra meta">'+
-															'<a href="#"><i class="delete icon"></i>删除</a>'+
-				    									'</div>'+
-				  									'</div>');
-	                				$('#uploadedphotos').append($imgCard);
+	                				if(data.status == SUCCESS_PHOTO_CREATE) {
+		                				var $imgCard = $('<div class="card" id="card'+data.id+'">'+
+		    									'<a class="image" href="#">'+
+		      										'<img src="'+img_base_url+data.key+album_thumbnail+'">'+
+		    									'</a>'+
+		    									'<div class="content">'+
+		    										'<textarea rows="" cols="" placeholder="添加描述..."></textarea>'+
+		    									'</div>'+
+		    									'<div class="extra meta">'+
+													'<a href="#"><i class="delete icon"></i>删除</a>'+
+		    									'</div>'+
+		  									'</div>');
+		                				$('#uploadedphotos').append($imgCard);	
+		                				if($('#uploadedphotos .card').length != 0) {
+		                					$('#saveAlbumBtn').removeClass('disabled');
+		                				} 
+	                				}
 
-	                    			if(typeof(data.error) != 'undefined')
-	                   				{
-				                        if(data.error != '')
-				                        {
-				                            alert(data.error);
-				                        }else
-				                        {
-				                            alert(data.msg);
-				                        }
-	                    			}
+
 	                		},
 	                		error: function (data, status, e){
 	                    			alert(e);
@@ -87,6 +83,9 @@ $(document).ready(function(){
 			if(data.status == SUCCESS_PHOTO_DELETE){
 				$(card).remove();
 			}
+			if($('#uploadedphotos .card').length == 0) {
+				$('#saveAlbumBtn').addClass('disabled');
+			} 
 			
 		});
 		return false;

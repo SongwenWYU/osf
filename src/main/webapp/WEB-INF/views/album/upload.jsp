@@ -85,7 +85,7 @@
 						</div>
 						
 					</div>
-					<div class="ui tiny blue button" id="saveAlbumBtn">
+					<div class="ui tiny blue button disabled" id="saveAlbumBtn">
 						保存
 					</div>
 					

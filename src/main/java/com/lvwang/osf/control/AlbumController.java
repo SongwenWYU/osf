@@ -214,6 +214,11 @@ public class AlbumController {
 		System.out.println(params);
 		
 		Album album = toAlbum(params);
+		if(album.getPhotos_count() == 0) {
+			map.put("status", Property.ERROR_ALBUM_EMPTY);
+			return map;
+		}
+		
 		album.setId((Integer)session.getAttribute("album_id"));
 		User user = (User)session.getAttribute("user");
 		album.setUser_id(user.getId());

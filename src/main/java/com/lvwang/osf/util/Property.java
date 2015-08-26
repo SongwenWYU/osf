@@ -93,6 +93,7 @@ public class Property {
 	public static final String ERROR_ALBUM_PERMISSIONDENIED = "006001";				//相册并不属于上传用户
 	public static final String ERROR_ALBUM_UPDDESC = "006002"; 			//更新相册描述错误
 	public static final String ERROR_ALBUM_UPDCOVER = "006003"; 			//更新相册封面错误
+	public static final String ERROR_ALBUM_EMPTY = "006004"; 			//上传相册为空
 	
 	public static final String ERROR_PHOTO_CREATE = "007000";
 	public static final String ERROR_PHOTO_EMPTY = "007001";				//上传图片为空
