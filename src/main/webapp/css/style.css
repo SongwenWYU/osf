@@ -480,15 +480,26 @@ a {
 	cursor: pointer;
 }
 .gallery{
-	padding: 40px;
-	padding-top: 50px;
+	position: relative;
+	margin: 50px auto;
+	width: 98%;
 }
 .gallery .box{
-	position: relative;
+	position: absolute;
+  	top: 0;
+  	left: 0;
+  	width: 300px;
+  	height: auto;
+  	
+/*   	
 	display: inline;
 	float: left;
 	margin-bottom: 5px;
-	overflow: hidden;
+	overflow: hidden; */
+}
+.gallery .box img{
+	width: 300px;
+	height:auto;
 }
 .gallery .box .meta{
 	position: absolute;

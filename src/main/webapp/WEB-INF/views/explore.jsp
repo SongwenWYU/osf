@@ -21,7 +21,8 @@
   <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/semantic.css">
   <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/style.css">
   <script src="<%=request.getContextPath() %>/js/jquery.js"></script>
-  <script src="<%=request.getContextPath() %>/js/jquery.row-grid.js"></script>
+  <%-- <script src="<%=request.getContextPath() %>/js/jquery.row-grid.js"></script> --%>
+  <script src="<%=request.getContextPath() %>/js/minigrid.min.js"></script>
   <script src="<%=request.getContextPath() %>/js/semantic.js"></script>
   <script src="<%=request.getContextPath() %>/js/basic.js"></script>
   <script src="<%=request.getContextPath() %>/js/code.js"></script>
@@ -47,20 +48,20 @@
 
 		<div class="main">
 			<div class="gallery" >
-				<div class="box first-item"></div>
+				<!-- <div class="box first-item"></div> -->
 				<c:forEach items="${events }" var="event">
 					<div class="box">
 						<c:if test="${event.object_type eq dic.object_type_post }">
 							<a href="<c:url value="/post/${event.object_id }" />">
-								<img src="<c:url value="${img_base_url }${event.content }?imageView2/2/h/200" />" alt="" />
+								<img src="<c:url value="${img_base_url }${event.content }?imageView2/2/w/300" />" alt="" />
 							</a>
 						</c:if>
 						<c:if test="${event.object_type eq dic.object_type_album }">
 							<a href="<c:url value="/album/${event.object_id }/photos" />">
-								<img src="<c:url value="${img_base_url }${event.title }?imageView2/2/h/200" />" alt="" />
+								<img src="<c:url value="${img_base_url }${event.title }?imageView2/2/w/300" />" alt="" />
 							</a>
 						</c:if>
-						<div class="meta">
+ 						<div class="meta">
 							<a href="<c:url value="/user/${event.user_id }" />">
 								<img class="ui avatar image" src="${img_base_url }${event.user_avatar}?imageView2/1/w/48/h/48">
 								<span>${event.user_name}</span>
@@ -155,9 +156,12 @@
 	</div>
   <script type="text/javascript">
 	$(function(){		
-		var options = {minMargin: 5, maxMargin: 10, itemSelector: ".box", firstItemClass: "first-item"};
-		$(".gallery").rowGrid(options);	
 		
+        minigrid('.gallery', '.box');
+      
+        window.addEventListener('resize', function(){
+          minigrid('.gallery', '.box');
+        });
 		
 		$(".topbar .header>div").click(function(){
 			var index=$(this).index();
