@@ -185,7 +185,7 @@ public class FeedService {
 		return addUserInfo(eventService.getEventsHasPhoto(0, 20));
 	}
 	
-	public void codeStart(int user_id){
+	public void coldStart(int user_id){
 		if(feedDao.count("feed:user:"+user_id) != 0){
 			return ;
 		}
