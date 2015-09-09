@@ -46,9 +46,6 @@
 		<div class="main">
 			<div class="gallery" >
 				<!-- <div class="box first-item"></div> -->
-				<div class="footer">
-					<i class="disabled big loading spinner icon"></i>
-				</div>
 				<c:forEach items="${events }" var="event">
 					<div class="box">
 						<c:if test="${event.object_type eq dic.object_type_post }">
@@ -154,6 +151,9 @@
 			</div>
 		</div>
 	</div>
+	<div class="footer">
+		<i class="disabled big loading spinner icon"></i>
+	</div>	
 	<script src="<%=request.getContextPath() %>/js/explore.js"></script>
 </body>
 </html>

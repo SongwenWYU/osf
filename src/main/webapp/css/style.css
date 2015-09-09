@@ -457,7 +457,7 @@ a {
 .explore{
 	margin-top: -40px;
     padding-top: 50px;
-    height: 200px;
+/*     height: 200px; */
     background-color: white;
 }
 
@@ -482,15 +482,17 @@ a {
 .gallery{
 	position: relative;
 	padding: 40px;
+	padding-bottom:100px;
 	margin: 0 auto;
 	position: relative;
 	width: 98%;
+	overflow:hidden;
 }
 
-.gallery .footer{
-	display: none;
-	position: absolute;
-	bottom: -50px;
+.footer{
+ 	display: none;
+	position: fixed;
+	bottom: 50px;
 	left: 49%;
 	text-align: center;
 }

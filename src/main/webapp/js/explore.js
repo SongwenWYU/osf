@@ -37,6 +37,7 @@ $(document).ready(function(){
 
 	});
 	
+	
     //无限加载
 	$(window).scroll(function() {
 		 if(no_more) {
@@ -44,11 +45,12 @@ $(document).ready(function(){
 		 }
 		 
 	     if($(window).scrollTop() + $(window).height() == $(document).height()) {
-	    	$('.gallery .footer').show();
+	    	$('.footer').show();
+	    	
 	    	page_num++;	//next page
 	    	
 	    	if(isLogin == 'false' && page_num > limit) {
-	    		$('.ui.small.modal.login-tip .header').css('text-align','center').text('登录以继续浏览');
+	    		$('.footer').hide();
 	    		$('.ui.small.modal.login-tip').modal('show');
 	    		return false;
 	    	}
@@ -63,13 +65,11 @@ $(document).ready(function(){
 					$(data.events).each(function(){
 						$('.gallery').append(toBox(this));
 					});
-
-					minigrid('.gallery', '.gallery .box');
 					
 				} else {
 					no_more = true;
 				}
-				$('.gallery .footer').hide();
+				$('.footer').hide();
 			})
 	     }
 	});
