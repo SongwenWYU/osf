@@ -36,10 +36,10 @@ $(document).ready(function(){
 
 	});
 	
-    minigrid('.gallery', '.box');
+    minigrid('.gallery', '.gallery .box');
     
     window.addEventListener('resize', function(){
-      minigrid('.gallery', '.box');
+      minigrid('.gallery', '.gallery .box');
     });
 	
     //无限加载
@@ -62,7 +62,7 @@ $(document).ready(function(){
 						$('.gallery').append(toBox(this));
 					});
 
-					minigrid('.gallery', '.box');
+					minigrid('.gallery', '.gallery .box');
 					
 				} else {
 					no_more = true;

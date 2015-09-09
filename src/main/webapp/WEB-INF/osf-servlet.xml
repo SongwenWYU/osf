@@ -33,6 +33,7 @@
 			<mvc:exclude-mapping path="/comment/attach/*/*"/>
 			<mvc:exclude-mapping path="/explore"/>
 			<mvc:exclude-mapping path="/explore/"/>
+			<mvc:exclude-mapping path="/explore/page/*"/>
 			<mvc:exclude-mapping path="/sidebar"/>
 			<mvc:exclude-mapping path="/welcome"/>
 			<mvc:exclude-mapping path="/popup_usercard/*"/>
