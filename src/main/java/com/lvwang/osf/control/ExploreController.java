@@ -54,6 +54,9 @@ public class ExploreController {
 	@Qualifier("followService")
 	private FollowService followService;
 	
+	private static final int PAGE_COUNT_REQ_LIMIT = 3;	//未登录状态下可加载的explore页数限制
+	
+	
 	@RequestMapping("")
 	public ModelAndView explore(HttpSession session){
 		ModelAndView mav = new ModelAndView();
@@ -86,6 +89,12 @@ public class ExploreController {
 		User user = (User) session.getAttribute("user");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
+		
+		if(user == null && num > PAGE_COUNT_REQ_LIMIT) {
+			result.put("status", Property.ERROR_ACCOUNT_NOTLOGIN);
+			return result;
+		}
+		
 		List<Event> events = feedService.getRecommentFeedsOfPage(user==null?0:user.getId(), num);
 		if(events == null || events.size() == 0) {
 			result.put("status", Property.ERROR_FEED_NOMORE);

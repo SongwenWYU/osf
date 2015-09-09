@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	var page_num = 1;
 	var no_more = false;
+	var limit = 3; //未登录状态下可加载的explore页数限制
 	var isLogin = $('meta[name=isLogin]').attr('content');
 	$('.explore .tags .tagbox a').live('click', function(){
 		if(isLogin == 'false'){
@@ -45,6 +46,13 @@ $(document).ready(function(){
 	     if($(window).scrollTop() + $(window).height() == $(document).height()) {
 	    	$('.gallery .footer').show();
 	    	page_num++;	//next page
+	    	
+	    	if(isLogin == 'false' && page_num > limit) {
+	    		$('.ui.small.modal.login-tip .header').css('text-align','center').text('登录以继续浏览');
+	    		$('.ui.small.modal.login-tip').modal('show');
+	    		return false;
+	    	}
+	    	
 	 		$.ajax({
 				url: basePath + '/explore/page/'+page_num,
 				type: 'GET',
