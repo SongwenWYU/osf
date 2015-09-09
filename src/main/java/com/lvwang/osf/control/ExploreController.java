@@ -9,7 +9,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lvwang.osf.model.Event;
@@ -77,4 +79,21 @@ public class ExploreController {
 		return mav;
 	}
 	
+	@ResponseBody
+	@RequestMapping("/page/{num}")
+	public Map<String, Object> page(@PathVariable("num") int num, HttpSession session) {
+		
+		User user = (User) session.getAttribute("user");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<Event> events = feedService.getRecommentFeedsOfPage(user==null?0:user.getId(), num);
+		if(events == null || events.size() == 0) {
+			result.put("status", Property.ERROR_FEED_NOMORE);
+		} else {
+			result.put("events", events);
+			result.put("status", Property.SUCCESS_FEED_LOAD);
+		}
+		
+		return result;
+	}
 }

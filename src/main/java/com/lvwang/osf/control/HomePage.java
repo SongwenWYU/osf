@@ -162,7 +162,7 @@ public class HomePage {
 	public Map<String, Object> guideOk(HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
 		User user = (User) session.getAttribute("user");
-		feedService.codeStart(user.getId());
+		feedService.coldStart(user.getId());
 		
 		return map;
 	}

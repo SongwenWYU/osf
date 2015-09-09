@@ -185,7 +185,11 @@ public class FeedService {
 		return addUserInfo(eventService.getEventsHasPhoto(0, 20));
 	}
 	
-	public void codeStart(int user_id){
+	public List<Event> getRecommentFeedsOfPage(int user_id, int page) {
+		return addUserInfo(eventService.getEventsHasPhoto(FEED_COUNT_PER_PAGE*(page-1), FEED_COUNT_PER_PAGE-1));
+	}
+	
+	public void coldStart(int user_id){
 		if(feedDao.count("feed:user:"+user_id) != 0){
 			return ;
 		}

@@ -82,6 +82,8 @@
 	var ERROR_AVATAR_CROP = "014000";
 	var ERROR_AVATAR_CHANGE = "014001";
 	
+	var ERROR_FEED_NOMORE = "015000";	
+	
 	/***********************************************************************
 	 * SUCCESS
 	 ***********************************************************************/
@@ -125,3 +127,5 @@
 	
 	var SUCCESS_AVATAR_CROP = "114000";
 	var SUCCESS_AVATAR_CHANGE = "114001";
+	
+	var SUCCESS_FEED_LOAD = "115000";

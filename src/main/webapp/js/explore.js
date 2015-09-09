@@ -1,4 +1,6 @@
 $(document).ready(function(){
+	var page_num = 1;
+	var no_more = false;
 	var isLogin = $('meta[name=isLogin]').attr('content');
 	$('.explore .tags .tagbox a').live('click', function(){
 		if(isLogin == 'false'){
@@ -33,9 +35,6 @@ $(document).ready(function(){
 		})
 
 	});
-		
-	var page_num = 1;
-	var no_more = false;
 	
     //无限加载
 	$(window).scroll(function() {
@@ -96,9 +95,8 @@ $(document).ready(function(){
 		box.append(meta);
 		return box; 	
     }
-    
-	
-	
+    	
+
 	$(".topbar .header>div").click(function(){
 		var index=$(this).index();
 		var explore=$('.gallery:first');
@@ -121,5 +119,7 @@ $(document).ready(function(){
 			$(users).fadeIn(200);
 			$(active_tip).css('left', '69%');
 		}
-	});
+	});	
+	
+	
 })

@@ -21,6 +21,7 @@
   <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/semantic.css">
   <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/style.css">
   <script src="<%=request.getContextPath() %>/js/jquery.js"></script>
+
   <script src="<%=request.getContextPath() %>/js/semantic.js"></script>
   <script src="<%=request.getContextPath() %>/js/basic.js"></script>
   <script src="<%=request.getContextPath() %>/js/code.js"></script>

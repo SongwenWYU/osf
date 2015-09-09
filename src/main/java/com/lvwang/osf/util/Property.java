@@ -45,6 +45,7 @@ public class Property {
 	 * 			   12:interest	
 	 * 			   13:like
 	 * 			   14:avatar
+	 * 			   15:feed
 	 * 			   ...)
 	 * 第4-6位标示对象的具体错误/成功类型
 	 * 
@@ -120,6 +121,8 @@ public class Property {
 	public static final String ERROR_AVATAR_CROP = "014000";
 	public static final String ERROR_AVATAR_CHANGE = "014001";
 	
+	public static final String ERROR_FEED_NOMORE = "015000";	
+	
 	/***********************************************************************
 	 * SUCCESS
 	 ***********************************************************************/
@@ -169,4 +172,6 @@ public class Property {
 	
 	public static final String SUCCESS_AVATAR_CROP = "114000";
 	public static final String SUCCESS_AVATAR_CHANGE = "114001";
+	
+	public static final String SUCCESS_FEED_LOAD = "115000";	
 }
