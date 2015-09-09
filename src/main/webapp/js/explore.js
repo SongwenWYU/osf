@@ -72,14 +72,14 @@ $(document).ready(function(){
 		//post
 		if(event.object_type == '0'){
 			var post_url = basePath + '/post/' + event.object_id;
-			var post_cover_url = img_base_url + event.content + '?imageView2/2/w/300';
+			var post_cover_url = img_base_url + event.content + '?imageView2/1/w/300/h/240';
 			var post = $('<a href="'+post_url+'"><img src="'+post_cover_url+'" /></a>');
 			box.append(post);
 		} 
 		//album
 		else if(event.object_type == '2') {
 			var album_url = basePath + '/album/'+event.object_id + '/photos';
-			var album_cover_url = img_base_url + event.title + '?imageView2/2/w/300';
+			var album_cover_url = img_base_url + event.title + '?imageView2/1/w/300/h/240';
 			var album = $('<a href="'+album_url+'"><img src="'+album_cover_url+'" /></a>');
 			box.append(album);
 		}

@@ -53,12 +53,12 @@
 					<div class="box">
 						<c:if test="${event.object_type eq dic.object_type_post }">
 							<a href="<c:url value="/post/${event.object_id }" />">
-								<img src="<c:url value="${img_base_url }${event.content }?imageView2/2/w/300" />" alt="" />
+								<img src="<c:url value="${img_base_url }${event.content }?imageView2/1/w/300/h/240" />" alt="" />
 							</a>
 						</c:if>
 						<c:if test="${event.object_type eq dic.object_type_album }">
 							<a href="<c:url value="/album/${event.object_id }/photos" />">
-								<img src="<c:url value="${img_base_url }${event.title }?imageView2/2/w/300" />" alt="" />
+								<img src="<c:url value="${img_base_url }${event.title }?imageView2/1/w/300/h/240" />" alt="" />
 							</a>
 						</c:if>
  						<div class="meta">

@@ -480,6 +480,7 @@ a {
 	cursor: pointer;
 }
 .gallery{
+	position: relative;
 	padding: 40px;
 	margin: 0 auto;
 	position: relative;
@@ -489,11 +490,12 @@ a {
 .gallery .footer{
 	display: none;
 	position: absolute;
-	bottom: -80px;
+	bottom: -50px;
 	left: 49%;
 	text-align: center;
 }
 .gallery .box{
+	position: relative;
 	display: inline;
 	width: 24%;
 	height: 200px;
