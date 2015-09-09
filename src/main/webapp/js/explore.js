@@ -33,11 +33,7 @@ $(document).ready(function(){
 		})
 
 	});
-	
-	
-	var options = {minMargin: 5, maxMargin: 10, itemSelector: ".box", firstItemClass: "first-item"};
-	$(".gallery").rowGrid(options);	
-	
+		
 	
 	$(".topbar .header>div").click(function(){
 		var index=$(this).index();
