@@ -484,6 +484,14 @@ a {
 	margin: 50px auto;
 	width: 98%;
 }
+
+.gallery .footer{
+	display: none;
+	position: absolute;
+	bottom: -80px;
+	left: 49%;
+	text-align: center;
+}
 .gallery .box{
 	position: absolute;
   	top: 0;

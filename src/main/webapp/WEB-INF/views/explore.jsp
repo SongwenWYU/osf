@@ -26,7 +26,7 @@
   <script src="<%=request.getContextPath() %>/js/semantic.js"></script>
   <script src="<%=request.getContextPath() %>/js/basic.js"></script>
   <script src="<%=request.getContextPath() %>/js/code.js"></script>
-  <script src="<%=request.getContextPath() %>/js/explore.js"></script>
+  
   <script src="<%=request.getContextPath() %>/js/follow.js"></script>
   <script src="<%=request.getContextPath() %>/js/login.js"></script>
   
@@ -49,6 +49,9 @@
 		<div class="main">
 			<div class="gallery" >
 				<!-- <div class="box first-item"></div> -->
+				<div class="footer">
+					<i class="disabled big loading spinner icon"></i>
+				</div>
 				<c:forEach items="${events }" var="event">
 					<div class="box">
 						<c:if test="${event.object_type eq dic.object_type_post }">
@@ -154,40 +157,6 @@
 			</div>
 		</div>
 	</div>
-  <script type="text/javascript">
-	$(function(){		
-		
-        minigrid('.gallery', '.box');
-      
-        window.addEventListener('resize', function(){
-          minigrid('.gallery', '.box');
-        });
-		
-		$(".topbar .header>div").click(function(){
-			var index=$(this).index();
-			var explore=$('.gallery:first');
-			var tags=$('.tags:first');
-			var users = $('.users:first');
-			var active_tip=$('.topbar .active');
-			if(index == 0){	
-				$(explore).fadeIn(300);
-				$(tags).fadeOut(200);
-				$(users).fadeOut(200);
-				$(active_tip).css('left', '19.5%');
-			} else if(index == 1 ){							
-				$(tags).fadeIn(300);
-				$(explore).fadeOut(200);
-				$(users).fadeOut(200);
-				$(active_tip).css('left', '44%');
-			} else{
-				$(explore).fadeOut(300);
-				$(tags).fadeOut(200);
-				$(users).fadeIn(200);
-				$(active_tip).css('left', '69%');
-			}
-		});
-		
-	});
-  </script>
+	<script src="<%=request.getContextPath() %>/js/explore.js"></script>
 </body>
 </html>

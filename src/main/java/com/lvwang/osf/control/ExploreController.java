@@ -81,7 +81,19 @@ public class ExploreController {
 	
 	@ResponseBody
 	@RequestMapping("/page/{num}")
-	public Map<String, Object> page(@PathVariable("num") int num) {
+	public Map<String, Object> page(@PathVariable("num") int num, HttpSession session) {
 		
+		User user = (User) session.getAttribute("user");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<Event> events = feedService.getRecommentFeedsOfPage(user==null?0:user.getId(), num);
+		if(events == null || events.size() == 0) {
+			result.put("status", Property.ERROR_FEED_NOMORE);
+		} else {
+			result.put("events", events);
+			result.put("status", Property.SUCCESS_FEED_LOAD);
+		}
+		
+		return result;
 	}
 }
