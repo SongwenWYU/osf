@@ -26,7 +26,7 @@
 		var event = $(this).parents('.event');
 		var comment_object_type = $(event).attr('object_type');
 		var comment_object_id = $(event).attr('object_id');
-		var comment_content = $(this).prev().val();
+		var comment_content = escape($(this).prev().val());
 		
 		var that = this;
 		//comment_parent = '0';

@@ -41,9 +41,9 @@ $(document).ready(function(){
 		}
 		else if(commentType == 1) {
 			//var replyTo = $(this).attr('replyTo');
-			header = '<a class="author">me</a> 回复 ' + '<a class="author">'+replyTo+'</a>';
+			header = '<a class="author">我</a> 回复 ' + '<a class="author">'+replyTo+'</a>';
 		}			
-		var commentContent = $('#replycontent').val();
+		var commentContent = escape($('#replycontent').val());
 		if(commentContent == null || commentContent.length == 0) {
 			return;
 		}
@@ -71,7 +71,7 @@ $(document).ready(function(){
 		})
 		.success(function(data) {
 			var status = data.status;
-			var $comment = $('<div class="comment" id="4">'+
+			var comment = $('<div class="comment" id="4">'+
 							    '<a class="avatar">'+
 							      '<img src="'+img_base_url+data.avatar+'?imageView2/1/w/48/h/48">'+
 							    '</a>'+
@@ -85,7 +85,7 @@ $(document).ready(function(){
 							      '</div>'+
 							    '</div>'+
 							  '</div>');
-			$('#commentList').prepend($comment);
+			$('#commentList').prepend(comment);
 			$('#header').remove();
 			$('#replycontent').val('');
 			$('#replycontent').focus();

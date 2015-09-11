@@ -31,7 +31,7 @@ $(document).ready(function(){
 
 	                		},
 	                		error: function (data, status, e){
-	                    			alert(e);
+	                    			
 	                		}
 	            		}
 	        		) ;
@@ -41,10 +41,10 @@ $(document).ready(function(){
 		$(this).addClass('loading');
 		$('#uploadedphotos .card').each(function(index, el) {
 			var photo_id = $(this).attr('id').substring(4);
-			var photo_desc = $(this).find('textarea:first()').val();
+			var photo_desc = escape($(this).find('textarea:first()').val());
 			photos.push({"id":photo_id, "desc":photo_desc});
 		});
-		var album_desc = $('#album_desc').val();
+		var album_desc = escape($('#album_desc').val());
 
 		$.ajax({
 			url: basePath+'/album/create',
