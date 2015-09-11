@@ -14,10 +14,13 @@ $(document).ready(function(){
 		var tag_input = $('#tag-input').val();
 		var length = tag_input.length;
 		if(length != 0 && tag_input.lastIndexOf(' ')== (length-1) ) {
-			var tag = $.trim(tag_input);
+			var tag = escape($.trim(tag_input));
 			if(tag.length != 0) {
 				tags.push(tag);
-				var newtag = $('<div class="ui label">'+tag+'<i class="delete icon"></i></div>');
+				//var newtag = $('<div class="ui label">'+tag+'<i class="delete icon"></i></div>');
+				var newtag = $('<div class="ui label"></div>');
+				newtag.html(tag);
+				newtag.append('<i class="delete icon"></i>');
 				$('.tagfield').append(newtag);
 				$('#tag-input').val('');
 				//$('#tag-input').width($('.tags:first()').width()-$('.tagfield:first()').width()-10);

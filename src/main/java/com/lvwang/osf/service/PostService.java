@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -95,6 +97,7 @@ public class PostService {
 			map.put("status", Property.ERROR_COMMENT_STATUS);
 		}
 		
+		
 		//2 save post
 		Post post = new Post();
 		post.setPost_author(author);
@@ -166,8 +169,9 @@ public class PostService {
 	public static String getSummary(String post_content) {
 		if(post_content == null || post_content.length() == 0)
 			return null;
+		
 		Document doc = Jsoup.parse(post_content);
-		String text = doc.text();
+		String text = doc.text().replaceAll("<script[^>]*>[\\d\\D]*?</script>", "");
 		return text.substring(0, 
 									  text.length() > POST_SUMMARY_LENGTH?
 									  POST_SUMMARY_LENGTH:

@@ -94,7 +94,7 @@
       	$('#send').click(function() {	
       		var that = this;
       		$(this).addClass('loading');
-    		var title = $('#title').val();
+    		var title = escape($('#title').val());
     		var content = $('#content').val();
 
     		var post_status = 0 // $('input[name="post_status"][checked]').val();
