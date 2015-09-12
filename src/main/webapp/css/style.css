@@ -103,7 +103,9 @@ a {
  	color:white;
  	font-size: 20px;
  }
-
+.ui.feed {
+	/* margin-bottom: 100px; */
+}
 .ui.feed > .event {
 	margin-bottom: 10px;
 } 
@@ -491,8 +493,8 @@ a {
 
 .footer{
  	display: none;
-	position: fixed;
-	bottom: 50px;
+/* 	position: fixed; */
+	margin-bottom: 50px;
 	left: 49%;
 	text-align: center;
 }

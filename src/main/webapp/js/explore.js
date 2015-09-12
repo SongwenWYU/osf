@@ -46,12 +46,12 @@ $(document).ready(function(){
 		 }
 		 
 	     if($(window).scrollTop() + $(window).height() == $(document).height()) {
-	    	$('.footer').show();
-	    	
+	    	//$('.footer').show();
+	    	$('.footer').css('display', 'block').html('没有更多了');
 	    	page_num++;	//next page
 	    	
 	    	if(isLogin == 'false' && page_num > limit) {
-	    		$('.footer').hide();
+	    		//$('.footer').hide();
 	    		$('.ui.small.modal.login-tip').modal('show');
 	    		return false;
 	    	}
@@ -68,9 +68,10 @@ $(document).ready(function(){
 					});
 					
 				} else {
+					$('.footer').css('display', 'block').html('没有更多了');
 					no_more = true;
 				}
-				$('.footer').hide();
+				//$('.footer').hide();
 			})
 	     }
 	});

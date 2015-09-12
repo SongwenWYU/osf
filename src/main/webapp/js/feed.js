@@ -1,23 +1,53 @@
   $(document).ready(function(){
-  	$('#feeds').infinitescroll({
-  		loading: {
-  		    finished: undefined,
-  		    finishedMsg: "没有更多的了",
-  		                img: null,
-  		    msg: null,
-  		    msgText: "正在加载...",
-  		    selector: null,
-  		    speed: 'fast',
-  		    start: undefined
-  		},
-		navSelector  	: "#next:last",
-		nextSelector 	: "a#next:last",
-		itemSelector 	: ".event",
-		dataType	 	: 'html',
-		animate      : true, 
-		extraScrollPx: 100
-  	});
+	  
+	var page_num = 1,
+		no_more = false;  
+	
+//  	$('#feeds').infinitescroll({
+//  		loading: {
+//  		    finished: undefined,
+//  		    finishedMsg: "没有更多的了",
+//  		                img: null,
+//  		    msg: null,
+//  		    msgText: "正在加载...",
+//  		    selector: null,
+//  		    speed: 'fast',
+//  		    start: undefined
+//  		},
+//		navSelector  	: "#next:last",
+//		nextSelector 	: "a#next:last",
+//		itemSelector 	: ".event",
+//		dataType	 	: 'html',
+//		animate      : true, 
+//		extraScrollPx: 100
+//  	});
 
+  	$(window).scroll(function() {
+  		
+  		if(no_more) {
+  			//$('.footer').css('display', 'block').html('没有更多了');
+			return false;
+		}
+  		
+  		if($(window).scrollTop() + $(window).height() == $(document).height()) {
+  			page_num++;	//next page
+  			
+  			$.ajax({
+  				url: basePath + '/page/' + page_num,
+  				type: 'GET' ,
+  				dataType: 'html'
+  			})
+  			.success(function(data){
+  				if($.trim(data).length == 0){
+  					no_more = true;
+  					$('.footer').css('display', 'block').html('没有更多了');
+  					return false;
+  				} 
+  				$('#feeds').append(data);
+  			});
+  		}
+  	});
+  	
   	
   	var comment_parent = '0';
   	

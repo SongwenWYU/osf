@@ -95,6 +95,9 @@
 
                     <%@ include file="nextpage.jsp" %>                
                   </div>  <!--end feed -->
+				  <div class="footer" style="left: 40%">
+					 <i class="disabled big loading spinner icon"></i>
+				  </div>   
                   <a id="next" href="<c:url value="/page/2" />"></a>
             </div>
           <div class="span4">
@@ -143,13 +146,13 @@
 										
             </div>           
           </div>
-        </div>
+        </div>       
       </div>
-
 
     </div>
 
   </div>
+
   <script src="<%=request.getContextPath() %>/js/feed.js"></script>
 </body>
 </html>
