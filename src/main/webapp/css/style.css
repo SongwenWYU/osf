@@ -460,7 +460,7 @@ a {
 	margin-top: -40px;
     padding-top: 50px;
 /*     height: 200px; */
-    background-color: white;
+/*     background-color: white; */
 }
 
  .explore .header{
@@ -471,10 +471,11 @@ position: relative;
  }
 .explore .topbar{
     position: relative;
-    padding-bottom: 20px;
+    /* padding-bottom: 20px; */
     /* border-bottom: 1px solid #D1CDCD; */
     width: 980px;
     margin: 0 auto;
+    padding-top: 1px;
 }
 .explore .topbar .header > div{
 	display: inline-block;

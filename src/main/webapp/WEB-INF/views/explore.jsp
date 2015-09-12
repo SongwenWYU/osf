@@ -32,13 +32,15 @@
  	<%@ include file="topbar.jsp" %>
 	<%@ include file="login_modal.jsp" %>
 	<div class="explore">
-		<div class="topbar">
-				<div class="header">
-					<div>探索<div class="active"></div></div>
-					<div>标签<div></div></div>
-					<div>用户<div></div></div>
-				</div>
-			<!-- <div class="active"></div> -->
+		<div style="background-color: white; width:100%">
+			<div class="topbar">
+					<div class="header">
+						<div>探索<div class="active"></div></div>
+						<div>标签<div></div></div>
+						<div>用户<div></div></div>
+					</div>
+				<!-- <div class="active"></div> -->
+			</div>		
 		</div>
 
 		<div class="main">
