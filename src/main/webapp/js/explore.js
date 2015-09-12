@@ -112,25 +112,23 @@ $(document).ready(function(){
 		var explore=$('.gallery:first');
 		var tags=$('.tags:first');
 		var users = $('.users:first');
-		var active_tip=$('.topbar .active');
+		$('.header .active').removeClass('active');
+		$(this).find('div').addClass('active');
 		if(index == 0){	
 			tab='explore';
 			$(explore).fadeIn(300);
 			$(tags).fadeOut(200);
 			$(users).fadeOut(200);
-			$(active_tip).css('left', '19.5%');
 		} else if(index == 1 ){		
 			tab='tags';
 			$(tags).fadeIn(300);
 			$(explore).fadeOut(200);
 			$(users).fadeOut(200);
-			$(active_tip).css('left', '44%');
 		} else{
 			tab='users';
 			$(explore).fadeOut(300);
 			$(tags).fadeOut(200);
 			$(users).fadeIn(200);
-			$(active_tip).css('left', '69%');
 		}
 	});	
 	

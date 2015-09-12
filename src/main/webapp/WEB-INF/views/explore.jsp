@@ -33,18 +33,16 @@
 	<%@ include file="login_modal.jsp" %>
 	<div class="explore">
 		<div class="topbar">
-			<div class="container">
 				<div class="header">
-					<div>探索</div>
-					<div>标签</div>
-					<div>用户</div>
+					<div>探索<div class="active"></div></div>
+					<div>标签<div></div></div>
+					<div>用户<div></div></div>
 				</div>
-			</div>
-			<div class="active"></div>
+			<!-- <div class="active"></div> -->
 		</div>
 
 		<div class="main">
-			<div class="gallery" >
+			<div class="gallery container" >
 				<!-- <div class="box first-item"></div> -->
 				<c:forEach items="${events }" var="event">
 					<div class="box">

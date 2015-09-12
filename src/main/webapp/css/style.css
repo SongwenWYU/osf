@@ -464,14 +464,17 @@ a {
 }
 
  .explore .header{
- 	position: relative;
- 	width: 100%;
- 	margin-bottom: 0;
+position: relative;
+    width: 100%;
+    margin-bottom: 0;
+    margin-top: 80px;
  }
 .explore .topbar{
-	position: relative;
-	padding-bottom: 20px;
-	border-bottom: 1px solid #D1CDCD;
+    position: relative;
+    padding-bottom: 20px;
+    /* border-bottom: 1px solid #D1CDCD; */
+    width: 980px;
+    margin: 0 auto;
 }
 .explore .topbar .header > div{
 	display: inline-block;
@@ -483,11 +486,10 @@ a {
 }
 .gallery{
 	position: relative;
-	padding: 40px;
+	padding-top: 40px;
 	padding-bottom:100px;
 	margin: 0 auto;
-	position: relative;
-	width: 98%;
+/* 	width: 98%; */
 	overflow:hidden;
 }
 
@@ -533,11 +535,10 @@ a {
 	/* height: 200px; */
 }
 .explore .active{
-	position: absolute;
-	left: 19.5%;
-	bottom: 0px;
-	width: 150px;
-	border-bottom: 4px solid orange;
+    margin: 0 auto;
+    border-bottom: 4px solid orange;
+    width: 50%;
+    margin-top: 20px;
 }
 .explore .tags {
 	text-align: center;
