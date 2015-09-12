@@ -464,7 +464,7 @@ a {
 }
 
  .explore .header{
-position: relative;
+	position: relative;
     width: 100%;
     margin-bottom: 0;
     margin-top: 80px;
@@ -608,6 +608,7 @@ position: relative;
 	height: 180px;
 	overflow: hidden;
 	text-align: center;
+	margin-top: 0;
 }
 
 .explore .userbox .header .avatar{
@@ -638,6 +639,7 @@ position: relative;
 .explore .userbox .content  .box img{
 	height: 180px;
 	width: 180px;
+	vertical-align: auto;
 }
 .explore .userbox .content .cover{
 	position: absolute;
