@@ -375,7 +375,10 @@ a {
 .ui.feed .content .extra img {
 	width: 100%;
 }
-
+.ui.feed .content .extra img.emojione{
+	width: 20px;
+	height: 20px;
+}
 .ui.feed > .event > .content .meta{
 	width: 100%;
 	margin-top: 10px;
@@ -425,6 +428,19 @@ a {
 	background: #FFFFFF;
 	border: 1px solid #DEDEDE;	
 }
+.short_post #img_upload_btn{
+	float: left;
+}
+.short_post #img_upload_btn i{
+    color: grey;
+    padding: 7px;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+.short_post #img_upload_btn i:hover{
+	cursor: pointer;
+	color: orange;
+}
 
 #action_bar textarea {
 	width: 100%;
@@ -440,6 +456,7 @@ a {
 #action_bar .bar{
 	padding: 5px;
 	border-top: 1px solid #DEDEDE;
+	overflow: hidden;
 }
 #action_bar .bar .button{
 	float: right;
@@ -821,3 +838,39 @@ trash-tip style
     color: #B5B5B5;
 }
 
+/**********
+emoji style
+-----------
+**********/
+
+.emojione {
+  /* Emoji Sizing */
+  font-size: inherit;
+  height: 3ex;
+  width: 3.1ex;
+  min-height: 20px;
+  min-width: 20px;
+
+  /* Inline alignment adjust the margins  */
+  display: inline-block;
+  margin: -.2ex .15em .2ex;
+  line-height: normal;
+  vertical-align: middle;
+}
+
+img.emojione {
+    width: 20px;
+    height: 20px;
+}
+#emoji-list-container{
+	display: none;
+	width: 100%;
+	padding: 10px;
+}
+.emoji-list li {
+    margin-bottom: 0.2em;
+    margin-right: 0.2em;
+    /*width: 1.1em;*/
+    list-style: none;
+    float: left;
+}
