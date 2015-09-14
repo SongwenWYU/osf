@@ -75,9 +75,9 @@
 									</c:forEach>
 								</div>
 							</div>
-							<p>
+							<div class="post-content">
 								${post.post_content }
-							</p>
+							</div>
 
 						</div>
 						<div>

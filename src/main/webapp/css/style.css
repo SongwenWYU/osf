@@ -38,7 +38,9 @@ a {
  .postmeta .tags {
  	float: right;
  } 
- 	
+ .post .post-content{
+ 	word-break: break-all;
+ }	
  #tags {
  	padding-left: 20px;
  }
@@ -389,7 +391,9 @@ a {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
-
+.ui.feed > .event > .content .extra{
+	word-break: break-all;
+}
 .header_box{
 	display: table;
 	margin-bottom: 40px;
