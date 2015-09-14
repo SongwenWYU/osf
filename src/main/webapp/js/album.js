@@ -1,6 +1,8 @@
 $(document).ready(function(){
 	var photos = [];
-
+	if($('#uploadedphotos .card').length != 0) {
+		$('#saveAlbumBtn').removeClass('disabled');
+	} 
 
 	$('#uploader_input').live('change', function(event) {
 	   $.ajaxFileUpload({
