@@ -3,6 +3,8 @@ package com.lvwang.osf.search;
 import java.io.File;
 import java.io.IOException;
 
+import javax.annotation.PreDestroy;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
@@ -14,7 +16,6 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
-import com.lvwang.osf.util.Property;
 
 public class IndexHolder {
 
@@ -22,6 +23,22 @@ public class IndexHolder {
 	private static IndexWriter indexWriter;
 	private static IndexReader indexReader;
 	private static IndexSearcher indexSearcher;
+	
+	static{
+		String classpath = IndexHolder.class.getClassLoader().getResource("").getPath();
+		try {
+			Directory dir = FSDirectory.open(new File(classpath+indexDir));
+			Analyzer analyzer = new StandardAnalyzer();
+			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_4_10_4, analyzer);
+			indexWriter = new IndexWriter(dir, iwc);
+			indexWriter.commit();
+			
+			indexReader = DirectoryReader.open(FSDirectory.open(new File(classpath+indexDir)));
+			indexSearcher = new IndexSearcher(indexReader);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public static IndexWriter getIndexWriter() {
 		if(indexWriter == null){
@@ -85,6 +102,17 @@ public class IndexHolder {
 			return indexSearcher;
 		}
 
+	}
+	
+	@PreDestroy
+	private void destroy(){
+		System.out.println("index writer and reader closing.......");
+		try {
+			indexWriter.close();
+			indexReader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
 
