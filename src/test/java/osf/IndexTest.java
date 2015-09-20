@@ -5,8 +5,10 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import com.lvwang.osf.model.Event;
 import com.lvwang.osf.search.EventIndexService;
@@ -22,26 +24,28 @@ public class IndexTest {
 		EventIndexService eventIndexService = (EventIndexService)context.getBean("eventIndexService");
 		Event event = new Event();
 		event.setId(1);
-		event.setTitle("hello titile");
-		event.setContent("hello content");
+		event.setTitle("indexer创建完索引后没有关闭（提交）导致索引没有完整创建，导致搜索报错");
+		event.setContent("indexer创建完索引后没有关闭（提交）导致索引没有完整创建，导致搜索报错");
 		eventIndexService.add(event);
 		
 		
-		List<Event> events = eventIndexService.findByTitleOrContent("hello");
-		if(events != null && events.size() !=0) {
-			for(Event e : events) {
-				System.out.println(e.getId());
-			}
-		}
+//		List<Event> events = eventIndexService.findByTitleOrContent("关闭报错");
+//		if(events != null && events.size() !=0) {
+//			for(Event e : events) {
+//				System.out.println(e.getId());
+//			}
+//		}
 		
 		//
+		event.setId(2);
 		eventIndexService.add(event);
-		events = eventIndexService.findByTitleOrContent("hello");
+		List<Event> events = eventIndexService.findByTitleOrContent("创建索引");
 		if(events != null && events.size() !=0) {
 			for(Event e : events) {
 				System.out.println(e.getId());
 			}
 		}
+		
 		
 		try {
 			IndexHolder.getIndexWriter().close();

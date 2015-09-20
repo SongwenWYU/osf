@@ -51,6 +51,7 @@ public class IndexHolder {
 			synchronized (IndexHolder.class) {
 				if(indexSearcher == null){
 					try {
+						indexWriter.commit();
 						String classpath = IndexHolder.class.getClassLoader().getResource("").getPath();
 						indexReader = DirectoryReader.open(FSDirectory.open(new File(classpath+indexDir)));
 					} catch (IOException e) {
