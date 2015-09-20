@@ -10,14 +10,13 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.LongField;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.Term;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.util.Version;
 import org.springframework.stereotype.Service;
 
 import com.lvwang.osf.model.Event;
@@ -40,8 +39,8 @@ public class EventIndexService implements IndexService<Event>{
 
 	public List<Event> findByTitleOrContent(String searchTerm) {
 		List<Event> events = new ArrayList<Event>();
-		Analyzer analyzer=new StandardAnalyzer(Version.LUCENE_46);
-		QueryParser parser = new QueryParser(Version.LUCENE_4_10_0, "title", analyzer);
+		Analyzer analyzer=new StandardAnalyzer();
+		QueryParser parser = new MultiFieldQueryParser(new String[]{"title", "content"}, analyzer);
 		Query query;
 		try {
 			query = parser.parse(searchTerm);

@@ -30,9 +30,10 @@ public class IndexHolder {
 					try {
 						String classpath = IndexHolder.class.getClassLoader().getResource("").getPath();
 						Directory dir = FSDirectory.open(new File(classpath+indexDir));
-						Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_10_0);
-						IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_4_10_0, analyzer);
+						Analyzer analyzer = new StandardAnalyzer();
+						IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_4_10_4, analyzer);
 						indexWriter = new IndexWriter(dir, iwc);
+						indexWriter.commit();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -49,14 +50,13 @@ public class IndexHolder {
 		if(indexSearcher == null){
 			synchronized (IndexHolder.class) {
 				if(indexSearcher == null){
-					IndexReader reader = null;
 					try {
 						String classpath = IndexHolder.class.getClassLoader().getResource("").getPath();
-						reader = DirectoryReader.open(FSDirectory.open(new File(classpath+indexDir)));
+						indexReader = DirectoryReader.open(FSDirectory.open(new File(classpath+indexDir)));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					indexSearcher = new IndexSearcher(reader);
+					indexSearcher = new IndexSearcher(indexReader);
 				}
 			}
 			return indexSearcher;
@@ -73,6 +73,7 @@ public class IndexHolder {
 						try {
 							indexReader.close();
 							indexReader = newReader;
+							indexSearcher = new IndexSearcher(indexReader);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}

@@ -20,11 +20,12 @@ public class IndexTest {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:/spring/app-config.xml");
 		PostService postService = (PostService)context.getBean("postService");
 		EventIndexService eventIndexService = (EventIndexService)context.getBean("eventIndexService");
-//		Event event = new Event();
-//		event.setId(1);
-//		event.setTitle("hello titile");
-//		event.setContent("hello content");
-//		eventIndexService.add(event);
+		Event event = new Event();
+		event.setId(1);
+		event.setTitle("hello titile");
+		event.setContent("hello content");
+		eventIndexService.add(event);
+		
 		
 		List<Event> events = eventIndexService.findByTitleOrContent("hello");
 		if(events != null && events.size() !=0) {
@@ -32,6 +33,16 @@ public class IndexTest {
 				System.out.println(e.getId());
 			}
 		}
+		
+		//
+		eventIndexService.add(event);
+		events = eventIndexService.findByTitleOrContent("hello");
+		if(events != null && events.size() !=0) {
+			for(Event e : events) {
+				System.out.println(e.getId());
+			}
+		}
+		
 		try {
 			IndexHolder.getIndexWriter().close();
 		} catch (IOException e) {
