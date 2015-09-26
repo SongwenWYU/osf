@@ -12,6 +12,7 @@ import com.lvwang.osf.model.Event;
 import com.lvwang.osf.model.Relation;
 import com.lvwang.osf.model.Tag;
 import com.lvwang.osf.model.User;
+import com.lvwang.osf.search.EventIndexService;
 
 @Service("feedService")
 public class FeedService {
@@ -50,6 +51,10 @@ public class FeedService {
 	@Autowired
 	@Qualifier("relationService")
 	private RelationService relationService;
+	
+	@Autowired
+	@Qualifier("eventIndexService")
+	private EventIndexService eventIndexService;
 	
 	public void push(int user_id, int event_id) {
 		List<Integer> followers = followService.getFollowerIDs(user_id);
@@ -174,6 +179,23 @@ public class FeedService {
 	private List<Integer> getEventIDsByTag(int tag_id, int start, int count) {
 		return feedDao.fetch("feed:tag:"+tag_id, start, count);
 	}
+	
+	/**
+	 * feeds search
+	 */
+	public List<Event> getFeedsByTitleOrContentContains(String term) {
+		if(term == null || term.length() == 0) return new ArrayList<Event>();
+		List<Integer> event_ids = eventIndexService.findByTitleOrContent(term);
+		
+		return decorateFeeds(0, event_ids);
+	}
+	public List<Event> getFeedsByTitleOrContentContains(int user_id, String term) {
+		if(term == null || term.length() == 0) return new ArrayList<Event>();
+		List<Integer> event_ids = eventIndexService.findByTitleOrContent(term);
+		
+		return decorateFeeds(user_id, event_ids);
+	}
+	
 	
 	/**
 	 * feed推荐算法

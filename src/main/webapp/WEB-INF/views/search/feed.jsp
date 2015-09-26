@@ -14,43 +14,36 @@
   <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/style.css">
 
   <script src="<%=request.getContextPath() %>/js/jquery.js"></script>
-  <script src="<%=request.getContextPath() %>/js/jquery.infinitescroll.js"></script>
   <script src="<%=request.getContextPath() %>/js/semantic.js"></script>
   <script src="<%=request.getContextPath() %>/js/basic.js"></script>
   <script src="<%=request.getContextPath() %>/js/code.js"></script>
   <script src="<%=request.getContextPath() %>/js/like.js"></script>
-  <script src="<%=request.getContextPath() %>/js/spost.js"></script>
   <script src="<%=request.getContextPath() %>/js/search.js"></script>
-  <script src="<%=request.getContextPath() %>/js/emojione.js"></script>
 </head>
 <body>
-  <%@ include file="topbar.jsp" %>
+  <%@ include file="../topbar.jsp" %>
   <div class="container">
     <div class="row">  
           <div class="span8">  
-				<div class="ui secondary  menu">
-				  <a class="item active">
-				    Home
-				  </a>
-				  <a class="item">
-				    Messages
-				  </a>
-				  <a class="item">
-				    Friends
-				  </a>
-				  <div class="right menu">
-				    <div class="item">
-				      <div class="ui icon input">
-				        <input type="text" placeholder="Search...">
-				        <i class="search link icon"></i>
-				      </div>
-				    </div>
-				    <a class="ui item">
-				      Logout
-				    </a>
-				  </div>
+				<div class="ui icon input" id="search-bar">
+				  <input type="text" placeholder="Search...">
+				  <i class="circular search link icon"></i>
 				</div>
-
+				<div class="ui secondary  menu">
+				  <a class="item active" href="<c:url value="/search/feed?term=${term }" />">
+				    综合
+				  </a>
+				  <a class="item" href="<c:url value="/search/tag?term=${term }" />">
+				    标签
+				  </a>
+				  <a class="item" href="<c:url value="/search/user?term=${term }" />">
+				    找人
+				  </a>
+				</div>
+                 <div class="ui feed" id="feeds">
+                    <%@ include file="../nextpage.jsp" %>                
+                  </div>  <!--end feed -->
+                  
 				  <div class="footer" style="left: 40%">
 					 <i class="disabled big loading spinner icon"></i>
 				  </div>   

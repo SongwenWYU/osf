@@ -16,10 +16,10 @@
 	      </ul>
 	      <ul class="nav navbar-nav navbar-right">
 	      	<li>
-				<div class="ui icon input search">
-				  <input type="text" placeholder="搜索..." id="search-term">
+				<form class="ui icon input search" id="search-form" action="<c:url value="/search/feed" />" method="post">
+				  <input type="text" placeholder="搜索..." id="search-term" name="term">
 				  <i class="circular search link icon" id="search-btn"></i>
-				</div>	      		      	
+				</form>	      		      	
 	      	</li>
 	      	<c:if test="${not empty sessionScope.user}">
 	      		<li>

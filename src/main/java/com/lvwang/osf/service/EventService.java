@@ -30,11 +30,10 @@ public class EventService {
 	@Autowired
 	@Qualifier("albumDao")
 	private AlbumDAO albumDao;
-	
+		
 	@Autowired
 	@Qualifier("eventIndexService")
 	private EventIndexService eventIndexService;
-	
 	
 	private Event toEvent(int object_type, Object obj) {
 		Event event = new Event();
@@ -157,14 +156,7 @@ public class EventService {
 	public List<Event> getEventsOfUser(int user_id, int count){
 		return eventDao.getEventsOfUser(user_id, count);
 	}
-	
-	public List<Event> getEventsByTitleOrContentContains(String term) {
-		if(term == null || term.length() == 0) return new ArrayList<Event>();
-		List<Integer> event_ids = eventIndexService.findByTitleOrContent(term);
 		
-		return getEventsWithIDs(event_ids);
-	}
-	
 	
 	public void delete(int id){
 		eventDao.delete(id);

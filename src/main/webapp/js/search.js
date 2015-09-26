@@ -1,21 +1,7 @@
 $(document).ready(function(){
 	$('#search-btn').click(function(){
-		var search_term = $('#search-term').val();
-
-
-		$.ajax({
-			url: basePath+'/search/event',
-			type: 'POST',
-			dataType: 'json',
-			data:{
-				term:search_term
-			}
-		})
-		.success(function(data){
-			
-		})			
-
-
+		if($.trim($('#search-term').val()).length==0) return false;
+		self.location=basePath+"/search/feed?term="+$.trim($('#search-term').val());
 	});
 
 

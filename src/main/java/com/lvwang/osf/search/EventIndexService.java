@@ -38,13 +38,14 @@ public class EventIndexService implements IndexService<Event>{
 		event.setId(e.getId());
 		event.setTitle(e.getTitle());
 		
-		int object_type = event.getObject_type();
+		int object_type = e.getObject_type();
 		if(Dic.OBJECT_TYPE_POST == object_type){
 			event.setContent(((Post)origin_obj).getPost_content());
 		} else if(Dic.OBJECT_TYPE_ALBUM == object_type){
 			event.setTitle(((Album)origin_obj).getAlbum_desc());
 			event.setContent(((Album)origin_obj).getAlbum_desc());
 		} else if(Dic.OBJECT_TYPE_SHORTPOST == object_type){
+			event.setTitle("");
 			event.setContent(((ShortPost)origin_obj).getPost_content());
 		}
 		index(event);

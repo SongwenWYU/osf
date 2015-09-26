@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lvwang.osf.dao.TagDAO;
 import com.lvwang.osf.model.Event;
 import com.lvwang.osf.model.Tag;
+import com.lvwang.osf.search.TagIndexService;
 import com.lvwang.osf.util.Property;
 
 @Service("tagService")
@@ -29,6 +30,10 @@ public class TagService {
 	@Autowired
 	@Qualifier("feedService")
 	private FeedService feedService;
+	
+	@Autowired
+	@Qualifier("tagIndexService")
+	private TagIndexService tagIndexService;
 	
 	@Autowired
 	@Qualifier("tagDao")
@@ -141,6 +146,8 @@ public class TagService {
 				tg.setId(id);
 				tg.setTag(tag.getTag());
 				taglist.add(tg);
+				//index tag
+				tagIndexService.add(tg);
 			}
 		}
 		ret.put("status", Property.SUCCESS_TAG_CREATE);
@@ -151,7 +158,13 @@ public class TagService {
 		return tagDao.getTagID(tag);
 	}
 	
+	public List<Tag> searchTag(String term) {
+		List<Integer> tag_ids = tagIndexService.findTag(term);
+		return getTagsByIDs(tag_ids);
+	}
+	
 	/**
+	 * 获取有tag的event
 	 * 需重构，迁移到feed或event
 	 * @param tag
 	 * @return
@@ -176,5 +189,9 @@ public class TagService {
 	
 	public Tag getTagByID(int id) {
 		return tagDao.getTagByID(id);
+	}
+	
+	public List<Tag> getTagsByIDs(List<Integer> ids) {
+		return tagDao.getTags(ids);
 	}
 }
