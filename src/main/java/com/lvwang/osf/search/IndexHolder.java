@@ -1,7 +1,10 @@
 package com.lvwang.osf.search;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import javax.annotation.PreDestroy;
 
@@ -15,25 +18,39 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
+import org.springframework.stereotype.Component;
 
 
+
+@Component
 public class IndexHolder {
 
-	private static String indexDir = "/indexDir";
+	private static String indexDir;
 	private static IndexWriter indexWriter;
 	private static IndexReader indexReader;
 	private static IndexSearcher indexSearcher;
 	
 	static{
 		String classpath = IndexHolder.class.getClassLoader().getResource("").getPath();
+		Properties prop = new Properties();  
+		
 		try {
-			Directory dir = FSDirectory.open(new File(classpath+indexDir));
+			InputStream in = new FileInputStream(classpath+"/spring/property.properties");  
+			prop.load(in);
+			indexDir = prop.getProperty("index.dir");
+			System.out.println(indexDir);
+			File index_dir = new File(indexDir);
+			if(!index_dir.exists() && !index_dir.isDirectory()) {
+				index_dir.mkdir();
+			} 
+			
+			Directory dir = FSDirectory.open(index_dir);
 			Analyzer analyzer = new StandardAnalyzer();
 			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_4_10_4, analyzer);
 			indexWriter = new IndexWriter(dir, iwc);
 			indexWriter.commit();
 			
-			indexReader = DirectoryReader.open(FSDirectory.open(new File(classpath+indexDir)));
+			indexReader = DirectoryReader.open(FSDirectory.open(index_dir));
 			indexSearcher = new IndexSearcher(indexReader);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -45,8 +62,7 @@ public class IndexHolder {
 			synchronized (IndexHolder.class) {
 				if(indexWriter == null){
 					try {
-						String classpath = IndexHolder.class.getClassLoader().getResource("").getPath();
-						Directory dir = FSDirectory.open(new File(classpath+indexDir));
+						Directory dir = FSDirectory.open(new File(indexDir));
 						Analyzer analyzer = new StandardAnalyzer();
 						IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_4_10_4, analyzer);
 						indexWriter = new IndexWriter(dir, iwc);
@@ -69,8 +85,7 @@ public class IndexHolder {
 				if(indexSearcher == null){
 					try {
 						indexWriter.commit();
-						String classpath = IndexHolder.class.getClassLoader().getResource("").getPath();
-						indexReader = DirectoryReader.open(FSDirectory.open(new File(classpath+indexDir)));
+						indexReader = DirectoryReader.open(FSDirectory.open(new File(indexDir)));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -105,7 +120,7 @@ public class IndexHolder {
 	}
 	
 	@PreDestroy
-	private void destroy(){
+	private static void destroy(){
 		System.out.println("index writer and reader closing.......");
 		try {
 			indexWriter.close();

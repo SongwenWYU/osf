@@ -353,6 +353,11 @@ a {
   padding: 10px 4px 12px 0;
 }
 
+.navbar-nav .search{
+	margin-top: 7px;
+    margin-right: 20px;
+}
+
 .ui.simple.dropdown .menu {
 	right: 3px;
 	left: auto;
