@@ -7,6 +7,12 @@
 <head>
   <meta charset="UTF-8">
   <title>OSF</title>
+  <c:if test="${not empty sessionScope.user}">
+	<meta name="isLogin" content="true"/>
+  </c:if>
+  <c:if test="${empty sessionScope.user}">
+	<meta name="isLogin" content="false"/>
+  </c:if>   
   <link rel="shortcut icon" href="<%=request.getContextPath() %>/img/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/bootstrap2.css">
   <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/navbar.css">
@@ -19,9 +25,12 @@
   <script src="<%=request.getContextPath() %>/js/code.js"></script>
   <script src="<%=request.getContextPath() %>/js/like.js"></script>
   <script src="<%=request.getContextPath() %>/js/search.js"></script>
+  <script src="<%=request.getContextPath() %>/js/interest.js"></script>
+  <script src="<%=request.getContextPath() %>/js/login.js"></script>  
 </head>
 <body>
   <%@ include file="../topbar.jsp" %>
+  <%@ include file="../login_modal.jsp" %>
   <div class="container">
     <div class="row">  
           <div class="span8">  
@@ -46,7 +55,16 @@
 						<div class="tagbox">
 							<div class="header">
 								<div class="tag"><a href="<c:url value="/tag/${tag.id }" />">#${tag.tag }</a></div>
-								<div class="ui orange small button follow">+关注</div>
+								<c:if test="${!isInterests[tag.id] }">
+							  		<div class="ui mini inverted yellow button interest" tag_id="${tag.id }">
+							  			+关注
+							  		</div>
+								</c:if>		
+								<c:if test="${isInterests[tag.id] }">
+							  		<div class="ui mini basic button interest" tag_id="${tag.id }">
+							  			 已关注
+							  		</div>
+								</c:if>							
 							</div>
 							<div class="content">
 								<c:forEach items="${feeds[tag.id] }" var="feed">

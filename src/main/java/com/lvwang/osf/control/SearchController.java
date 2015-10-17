@@ -20,6 +20,7 @@ import com.lvwang.osf.model.User;
 import com.lvwang.osf.service.EventService;
 import com.lvwang.osf.service.FeedService;
 import com.lvwang.osf.service.FollowService;
+import com.lvwang.osf.service.InterestService;
 import com.lvwang.osf.service.TagService;
 import com.lvwang.osf.service.UserService;
 import com.lvwang.osf.util.Dic;
@@ -48,6 +49,10 @@ public class SearchController {
 	@Qualifier("eventService")
 	private EventService eventService;
 	
+	@Autowired
+	@Qualifier("interestService")
+	private InterestService interestService;
+	
 	@RequestMapping("/feed")
 	public ModelAndView searchFeed(@RequestParam("term") String term) {
 		System.out.println(term);
@@ -66,10 +71,13 @@ public class SearchController {
 		
 	@RequestMapping("/tag")
 	public ModelAndView searchTag(@RequestParam("term") String term, HttpSession session) {
+		User me = (User) session.getAttribute("user");
+		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("search/tag");
 		List<Tag> tags = tagService.searchTag(term);
 		mav.addObject("tags", tags);
+		mav.addObject("isInterests", interestService.hasInterestInTags(me==null?0:me.getId(), tags));
 		Map<Integer, List<Event>> feeds = new TreeMap<Integer, List<Event>>();
 		for(Tag tag: tags){
 			feeds.put(tag.getId(), feedService.getFeedsByTag(0, tag.getId(), 3));

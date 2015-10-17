@@ -7,6 +7,12 @@
 <head>
   <meta charset="UTF-8">
   <title>OSF</title>
+  <c:if test="${not empty sessionScope.user}">
+	<meta name="isLogin" content="true"/>
+  </c:if>
+  <c:if test="${empty sessionScope.user}">
+	<meta name="isLogin" content="false"/>
+  </c:if>  
   <link rel="shortcut icon" href="<%=request.getContextPath() %>/img/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/bootstrap2.css">
   <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/navbar.css">
@@ -19,9 +25,12 @@
   <script src="<%=request.getContextPath() %>/js/code.js"></script>
   <script src="<%=request.getContextPath() %>/js/like.js"></script>
   <script src="<%=request.getContextPath() %>/js/search.js"></script>
+  <script src="<%=request.getContextPath() %>/js/follow.js"></script>
+  <script src="<%=request.getContextPath() %>/js/login.js"></script>  
 </head>
 <body>
   <%@ include file="../topbar.jsp" %>
+  <%@ include file="../login_modal.jsp" %>
   <div class="container">
     <div class="row">  
           <div class="span8">  
