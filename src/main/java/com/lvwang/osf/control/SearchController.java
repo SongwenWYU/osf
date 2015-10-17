@@ -1,8 +1,11 @@
 package com.lvwang.osf.control;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,8 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.lvwang.osf.model.Event;
 import com.lvwang.osf.model.Tag;
+import com.lvwang.osf.model.User;
+import com.lvwang.osf.service.EventService;
 import com.lvwang.osf.service.FeedService;
+import com.lvwang.osf.service.FollowService;
 import com.lvwang.osf.service.TagService;
+import com.lvwang.osf.service.UserService;
 import com.lvwang.osf.util.Dic;
 
 @Controller
@@ -28,6 +35,18 @@ public class SearchController {
 	@Autowired
 	@Qualifier("tagService")
 	private TagService tagService;
+	
+	@Autowired
+	@Qualifier("userService")
+	private UserService userService;
+	
+	@Autowired
+	@Qualifier("followService")
+	private FollowService followService;
+	
+	@Autowired
+	@Qualifier("eventService")
+	private EventService eventService;
 	
 	@RequestMapping("/feed")
 	public ModelAndView searchFeed(@RequestParam("term") String term) {
@@ -46,7 +65,7 @@ public class SearchController {
 	}
 		
 	@RequestMapping("/tag")
-	public ModelAndView searchTag(@RequestParam("term") String term) {
+	public ModelAndView searchTag(@RequestParam("term") String term, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("search/tag");
 		List<Tag> tags = tagService.searchTag(term);
@@ -62,10 +81,21 @@ public class SearchController {
 	}
 
 	@RequestMapping("/user")
-	public ModelAndView searchUser(@RequestParam("term") String term) {
+	public ModelAndView searchUser(@RequestParam("term") String term, HttpSession session) {
+		User me = (User) session.getAttribute("user");
+		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("search");
-		mav.addObject("feeds", feedService.getFeedsByTitleOrContentContains(term));
+		mav.setViewName("search/user");
+		
+		List<User> users = userService.searchUserByName(term);
+		mav.addObject("isFollowings", followService.isFollowing(me==null?0:me.getId(), users));
+		
+		Map<User, List<Event>> feeds = new HashMap<User, List<Event>>();
+		for(User user: users){
+			feeds.put(user, eventService.getEventsOfUser(user.getId(), 3));
+		}
+		mav.addObject("feeds", feeds);		
+		mav.addObject("term", term);
 		mav.addObject("dic", new Dic());
 		return mav;
 	}

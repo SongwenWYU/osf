@@ -3,7 +3,9 @@ package com.lvwang.osf.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class User implements Serializable{
+import com.lvwang.osf.search.Searchable;
+
+public class User implements Serializable, Searchable{
 
 	private static final long serialVersionUID = 1L;
 	private int id;

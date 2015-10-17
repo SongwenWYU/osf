@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.lvwang.osf.dao.UserDAO;
 import com.lvwang.osf.model.User;
+import com.lvwang.osf.search.UserIndexService;
 import com.lvwang.osf.util.CipherUtil;
 import com.lvwang.osf.util.Dic;
 import com.lvwang.osf.util.Property;
@@ -52,6 +53,10 @@ public class UserService {
 	@Autowired
 	@Qualifier("albumService")
 	private AlbumService albumService;
+	
+	@Autowired
+	@Qualifier("userIndexService")
+	private UserIndexService userIndexService;
 	
 	private boolean ValidateEmail(String email) {
 		boolean result = true;
@@ -445,5 +450,14 @@ public class UserService {
 		} else {
 			return new User();
 		}
+	}
+	
+	public void indexUser(User user){
+		userIndexService.add(user);
+	}
+	
+	public List<User> searchUserByName(String username) {
+		List<Integer> user_ids = userIndexService.findUserByName(username);
+		return findAllbyIDs(user_ids);	
 	}
 }

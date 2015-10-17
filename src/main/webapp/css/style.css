@@ -620,7 +620,7 @@ a {
 
 
 
-.explore .users .userbox{ 
+.explore .users .userbox{
 	height: 180px;
 	width: 916px;
 	margin: 0 auto;
@@ -628,7 +628,16 @@ a {
 	overflow: hidden;
 	margin-bottom: 30px;
 }
-.explore .users .userbox .header{
+.search.users .userbox{ 
+	height: 150px;
+	width: 100%;
+	margin: 0 auto;
+	background-color: white;
+	overflow: hidden;
+	margin-bottom: 30px;
+}
+.explore .users .userbox .header,
+.search.users .userbox .header{
 	display: inline-block;
 	width: 180px;
 	height: 180px;
@@ -636,25 +645,39 @@ a {
 	text-align: center;
 	margin-top: 0;
 }
+.search.users .userbox .header{
+	width: 150px;
+	height: 150px;	
+}
 
-.explore .userbox .header .avatar{
+.explore .userbox .header .avatar,
+.search .userbox .header .avatar{
 	width: 70px;
 	height: 70px;
 	border-radius: 60px;
 	margin-top: 20px;
 	margin-bottom: 5px;
 }
-.explore .userbox .header .desc{
+.search .userbox .header .avatar{
+	margin: 0;
+}
+.explore .userbox .header .desc,
+.search .userbox .header .desc{
 	margin: 10px;
 }
-.explore .userbox .content{
-	float: right;
+.explore .userbox .content,
+.search  .userbox .content{
+	/* float: right; */
 	display: inline-block;
 	height: 180px;
 	overflow: hidden;
-	
 }
-.explore .userbox .content  .box{
+.search  .userbox .content{
+	height: 150px;
+}
+
+.explore .userbox .content  .box,
+.search .userbox .content  .box{
 	position: relative;
 	display: inline-block;
 	height: 180px;
@@ -662,12 +685,24 @@ a {
 	line-height: 180px;
 	overflow: hidden;
 }
-.explore .userbox .content  .box img{
+.search .userbox .content  .box{
+	height: 150px;
+	width: 150px;
+	line-height: 150px;	
+	margin-left: 2px;
+}
+.explore .userbox .content  .box img,
+.search .userbox .content  .box img{
 	height: 180px;
 	width: 180px;
 	vertical-align: auto;
 }
-.explore .userbox .content .cover{
+.search .userbox .content  .box img {
+	height: 150px;
+	width: 150px;
+}
+.explore .userbox .content .cover,
+.search .userbox .content .cover{
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -679,6 +714,11 @@ a {
 	font-size: 16px;
 	padding: 10px;
 }
+.search .userbox .content .cover{
+	height: 150px;
+	width: 150px;	
+}
+
 
 /****************
 	comment style

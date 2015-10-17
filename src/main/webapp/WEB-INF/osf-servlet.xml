@@ -24,6 +24,7 @@
 			<mvc:exclude-mapping path="/img/**"/>
 			<mvc:exclude-mapping path="/font/**"/>
 			<mvc:exclude-mapping path="/account/login"/>
+			<mvc:exclude-mapping path="/account/logout"/>
 			<mvc:exclude-mapping path="/account/register"/>
 			<mvc:exclude-mapping path="/account/activation/**"/>
 			<mvc:exclude-mapping path="/account/resetpwd"/>
