@@ -19,6 +19,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.springframework.stereotype.Component;
+import org.wltea.analyzer.lucene.IKAnalyzer;
 
 
 
@@ -45,7 +46,8 @@ public class IndexHolder {
 			} 
 			
 			Directory dir = FSDirectory.open(index_dir);
-			Analyzer analyzer = new StandardAnalyzer();
+			//Analyzer analyzer = new StandardAnalyzer();
+			Analyzer analyzer = new IKAnalyzer();
 			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_4_10_4, analyzer);
 			indexWriter = new IndexWriter(dir, iwc);
 			indexWriter.commit();
@@ -63,7 +65,8 @@ public class IndexHolder {
 				if(indexWriter == null){
 					try {
 						Directory dir = FSDirectory.open(new File(indexDir));
-						Analyzer analyzer = new StandardAnalyzer();
+						//Analyzer analyzer = new StandardAnalyzer();
+						Analyzer analyzer = new IKAnalyzer();
 						IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_4_10_4, analyzer);
 						indexWriter = new IndexWriter(dir, iwc);
 						indexWriter.commit();

@@ -18,6 +18,7 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.springframework.stereotype.Service;
+import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import com.lvwang.osf.model.Album;
 import com.lvwang.osf.model.Event;
@@ -67,7 +68,8 @@ public class EventIndexService implements IndexService<Event>{
 	
 	public List<Integer> findByTitleOrContent(String searchTerm) {
 		List<Integer> events = new ArrayList<Integer>();
-		Analyzer analyzer=new StandardAnalyzer();
+		//Analyzer analyzer=new StandardAnalyzer();
+		Analyzer analyzer = new IKAnalyzer();
 		QueryParser parser = new MultiFieldQueryParser(new String[]{"event_title", "event_content"}, analyzer);
 		Query query;
 		try {

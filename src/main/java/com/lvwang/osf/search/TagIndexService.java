@@ -17,6 +17,8 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.springframework.stereotype.Service;
+import org.wltea.analyzer.lucene.IKAnalyzer;
+
 import com.lvwang.osf.model.Tag;
 
 @Service("tagIndexService")
@@ -40,7 +42,8 @@ public class TagIndexService implements IndexService<Tag>{
 	
 	public List<Integer> findTag(String tag_search_term) {
 		List<Integer> tags = new ArrayList<Integer>();
-		Analyzer analyzer=new StandardAnalyzer();
+		//Analyzer analyzer=new StandardAnalyzer();
+		Analyzer analyzer = new IKAnalyzer();
 		QueryParser parser = new QueryParser("tag_name", analyzer);
 		Query query;
 		try {

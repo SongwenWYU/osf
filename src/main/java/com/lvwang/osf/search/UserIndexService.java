@@ -17,6 +17,7 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.springframework.stereotype.Service;
+import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import com.lvwang.osf.model.User;
 
@@ -37,7 +38,8 @@ public class UserIndexService implements IndexService<User>{
 	
 	public List<Integer> findUserByName(String username) {
 		List<Integer> users = new ArrayList<Integer>();
-		Analyzer analyzer=new StandardAnalyzer();
+//		Analyzer analyzer=new StandardAnalyzer();
+		Analyzer analyzer = new IKAnalyzer();
 		QueryParser parser = new QueryParser("user_name", analyzer);
 		Query query;
 		try {
