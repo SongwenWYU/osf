@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -54,8 +55,9 @@ public class SearchController {
 	private InterestService interestService;
 	
 	@RequestMapping("/feed")
-	public ModelAndView searchFeed(@RequestParam("term") String term) {
+	public ModelAndView searchFeed(@RequestParam("term") String term, HttpSession session) {
 		System.out.println(term);
+		User me = (User) session.getAttribute("user");
 //		try {
 //			//term = new String(term.getBytes("ISO-8859-1"),"UTF-8");
 //		} catch (UnsupportedEncodingException e) {
@@ -63,12 +65,28 @@ public class SearchController {
 //		}
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("search/feed");
-		mav.addObject("feeds", feedService.getFeedsByTitleOrContentContains(term));
+		mav.addObject("feeds", feedService.getFeedsByTitleOrContentContains(me==null?0:me.getId(), term));
 		mav.addObject("dic", new Dic());
 		mav.addObject("term", term);
 		return mav;
 	}
+	
+	@RequestMapping("/feed/page/{num}")
+	public ModelAndView searchFeedOfPage(@PathVariable("num") int num, 
+										 @RequestParam("term") String term,
+										 HttpSession session) {
+		System.out.println(term);
 		
+		User me = (User) session.getAttribute("user");
+
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("nextpage");
+		mav.addObject("feeds", feedService.getFeedsByTitleOrContentContains(me==null?0:me.getId(), term, num));
+		mav.addObject("dic", new Dic());
+		mav.addObject("term", term);
+		return mav;
+	}	
+	
 	@RequestMapping("/tag")
 	public ModelAndView searchTag(@RequestParam("term") String term, HttpSession session) {
 		User me = (User) session.getAttribute("user");

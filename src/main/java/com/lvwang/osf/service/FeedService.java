@@ -196,6 +196,18 @@ public class FeedService {
 		return decorateFeeds(user_id, event_ids);
 	}
 	
+	public List<Event> getFeedsByTitleOrContentContains(String term, int page) {
+		if(term == null || term.length() == 0) return new ArrayList<Event>();
+		List<Integer> event_ids = eventIndexService.findByTitleOrContent(term, (page-1)*FEED_COUNT_PER_PAGE, FEED_COUNT_PER_PAGE);
+		
+		return decorateFeeds(0, event_ids);
+	}
+	public List<Event> getFeedsByTitleOrContentContains(int user_id, String term, int page) {
+		if(term == null || term.length() == 0) return new ArrayList<Event>();
+		List<Integer> event_ids = eventIndexService.findByTitleOrContent(term, (page-1)*FEED_COUNT_PER_PAGE, FEED_COUNT_PER_PAGE);
+		
+		return decorateFeeds(user_id, event_ids);
+	}
 	
 	/**
 	 * feed推荐算法

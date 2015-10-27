@@ -17,6 +17,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TopScoreDocCollector;
 import org.springframework.stereotype.Service;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
@@ -67,6 +68,11 @@ public class EventIndexService implements IndexService<Event>{
 	}
 	
 	public List<Integer> findByTitleOrContent(String searchTerm) {
+		return findByTitleOrContent(searchTerm, 0, 10);
+		
+	}
+	
+	public List<Integer> findByTitleOrContent(String searchTerm, int start, int count) {
 		List<Integer> events = new ArrayList<Integer>();
 		//Analyzer analyzer=new StandardAnalyzer();
 		Analyzer analyzer = new IKAnalyzer();
@@ -75,8 +81,9 @@ public class EventIndexService implements IndexService<Event>{
 		try {
 			query = parser.parse(searchTerm);
 			IndexSearcher searcher = IndexHolder.getIndexSearcher();
-			TopDocs docs = searcher.search(query, 10);
-			ScoreDoc[] sds =docs.scoreDocs;
+			TopScoreDocCollector topCollector = TopScoreDocCollector.create(100, false);
+			searcher.search(query, topCollector);
+			ScoreDoc[] sds = topCollector.topDocs(start, count).scoreDocs;
 			for(ScoreDoc sd: sds){
 				Document doc = searcher.doc(sd.doc);
 				events.add(Integer.valueOf(doc.get("event_id")));
@@ -87,8 +94,7 @@ public class EventIndexService implements IndexService<Event>{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return events;
-		
+		return events;		
 	}
 	
 }

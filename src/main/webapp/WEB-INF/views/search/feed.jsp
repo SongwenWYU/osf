@@ -26,7 +26,7 @@
     <div class="row">  
           <div class="span8">  
 				<div class="ui icon input" id="search-bar">
-				  <input type="text" placeholder="Search...">
+				  <input type="text" placeholder="搜索" value="${term }">
 				  <i class="circular search link icon"></i>
 				</div>
 				<div class="ui secondary  menu">
@@ -47,7 +47,7 @@
 				  <div class="footer" style="left: 40%">
 					 <i class="disabled big loading spinner icon"></i>
 				  </div>   
-                  <a id="next" href="<c:url value="/page/2" />"></a>
+                  <a id="next" href="<c:url value="/search/feed/page/2?term=${term }" />"></a>
             </div>
           <div class="span4">
           	<div id="rightside">
