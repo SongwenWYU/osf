@@ -16,7 +16,7 @@
 	      </ul>
 	      <ul class="nav navbar-nav navbar-right">
 	      	<li>
-				<form class="ui icon input search" id="search-form" action="<c:url value="/search/feed" />" method="post">
+				<form class="ui icon input search" id="search-form" action="<c:url value="/search/feed" />" method="get">
 				  <input type="text" placeholder="搜索..." id="search-term" name="term">
 				  <i class="circular search link icon" id="search-btn"></i>
 				</form>	      		      	
