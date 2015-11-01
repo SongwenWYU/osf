@@ -17,7 +17,7 @@ import com.lvwang.osf.search.EventIndexService;
 @Service("feedService")
 public class FeedService {
 
-	public static final int FEED_COUNT_PER_PAGE = 10;
+	public static final int FEED_COUNT_PER_PAGE = 5;
 	public static final int FEED_COUNT = 200;	//feed缓存量
 	
 	@Autowired
@@ -189,11 +189,8 @@ public class FeedService {
 		
 		return decorateFeeds(0, event_ids);
 	}
-	public List<Event> getFeedsByTitleOrContentContains(int user_id, String term) {
-		if(term == null || term.length() == 0) return new ArrayList<Event>();
-		List<Integer> event_ids = eventIndexService.findByTitleOrContent(term);
-		
-		return decorateFeeds(user_id, event_ids);
+	public List<Event> getFeedsByTitleOrContentContains(int user_id, String term) {		
+		return getFeedsByTitleOrContentContains(user_id, term, 1);
 	}
 	
 	public List<Event> getFeedsByTitleOrContentContains(String term, int page) {

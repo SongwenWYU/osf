@@ -146,6 +146,5 @@
 
   </div>
 
-  <script src="<%=request.getContextPath() %>/js/feed.js"></script>
 </body>
 </html>
