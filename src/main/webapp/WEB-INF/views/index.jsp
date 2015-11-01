@@ -20,6 +20,7 @@
   <script src="<%=request.getContextPath() %>/js/code.js"></script>
   <script src="<%=request.getContextPath() %>/js/like.js"></script>
   <script src="<%=request.getContextPath() %>/js/spost.js"></script>
+  <script src="<%=request.getContextPath() %>/js/search.js"></script>
   <script src="<%=request.getContextPath() %>/js/emojione.js"></script>
 </head>
 <body>

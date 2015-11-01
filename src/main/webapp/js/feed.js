@@ -21,7 +21,6 @@
 //		animate      : true, 
 //		extraScrollPx: 100
 //  	});
-
   	$(window).scroll(function() {
   		
   		if(no_more) {
@@ -31,9 +30,11 @@
   		
   		if($(window).scrollTop() + $(window).height() == $(document).height()) {
   			page_num++;	//next page
-  			
+  			var url = $('#next').attr('href').replace(new RegExp("page/\\d"), 'page/'+page_num);
+  			$('#next').attr('href', url);
   			$.ajax({
-  				url: basePath + '/page/' + page_num,
+  				//url: basePath + '/page/' + page_num,
+  				url: url,
   				type: 'GET' ,
   				dataType: 'html'
   			})

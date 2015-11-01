@@ -29,6 +29,7 @@ import com.lvwang.osf.model.Event;
 import com.lvwang.osf.model.Post;
 import com.lvwang.osf.model.Tag;
 import com.lvwang.osf.model.User;
+import com.lvwang.osf.search.TagIndexService;
 import com.lvwang.osf.util.Dic;
 import com.lvwang.osf.util.Property;
 
@@ -68,6 +69,10 @@ public class PostService {
 	@Autowired
 	@Qualifier("postDao")
 	private PostDAO postDao;
+	
+	@Autowired
+	@Qualifier("tagIndexService")
+	private TagIndexService tagIndexService;
 	
 	@Transactional
 	public Map<String, Object> newPost(Integer author, String title, String content, 
@@ -114,7 +119,8 @@ public class PostService {
 		
 		
 		//3 save tags
-		if(param_tags != null && param_tags.length() != 0) {				
+		if(param_tags != null && param_tags.length() != 0) {	
+			//此处会为tag建立index
 			Map<String, Object> tagsmap = tagService.newTags(tagService.toList(param_tags));
 			
 			post.setPost_tags((List<Tag>)tagsmap.get("tags"));
@@ -128,8 +134,7 @@ public class PostService {
 											 post.getId(), 
 											 tag.getId()
 											 );
-			}
-			
+			}			
 			map.put("tags", tagsmap.get("tags"));
 		} else {
 			int id = savePost(post);

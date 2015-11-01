@@ -20,6 +20,9 @@
 
 		<!-- Spring -->
 		<spring-framework.version>3.2.8.RELEASE</spring-framework.version>
+		
+		<!-- Lucene  -->
+		<lucene.version>4.10.4</lucene.version>
 
 		<!-- Hibernate / JPA -->
 		<hibernate.version>4.2.1.Final</hibernate.version>
@@ -244,6 +247,24 @@
 			<artifactId>ST4</artifactId>
 			<version>4.0.7</version>
 		</dependency>
+
+		<!-- lucene -->
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-queryparser</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+
 
 	</dependencies>	
 </project>

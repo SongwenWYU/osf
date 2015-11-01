@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -104,7 +105,7 @@ public class TagDAOImpl implements TagDAO{
 	}
 	
 	public List<Tag> getTags(List<Integer> tags_id){
-		
+		if(tags_id == null || tags_id.size() == 0) return new ArrayList<Tag>();
 		String sql = "select * from "+ TABLE + " where id in (:ids)";
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("ids", tags_id);

@@ -17,6 +17,7 @@ import com.lvwang.osf.model.Photo;
 import com.lvwang.osf.model.Post;
 import com.lvwang.osf.model.Relation;
 import com.lvwang.osf.model.ShortPost;
+import com.lvwang.osf.search.EventIndexService;
 import com.lvwang.osf.util.Dic;
 
 @Service("eventService")
@@ -29,6 +30,10 @@ public class EventService {
 	@Autowired
 	@Qualifier("albumDao")
 	private AlbumDAO albumDao;
+		
+	@Autowired
+	@Qualifier("eventIndexService")
+	private EventIndexService eventIndexService;
 	
 	private Event toEvent(int object_type, Object obj) {
 		Event event = new Event();
@@ -84,9 +89,17 @@ public class EventService {
 		return event;
 	}
 	
-	
+	/**
+	 * 保存event，并索引
+	 * @param object_type
+	 * @param obj
+	 * @return event_id
+	 */
 	public int newEvent(int object_type, Object obj) {
-		int event_id = eventDao.save(toEvent(object_type, obj));
+		Event event = toEvent(object_type, obj);
+		int event_id = eventDao.save(event);
+		event.setId(event_id);
+		eventIndexService.add(event, obj);
 		return event_id;
 	}
 	
@@ -143,6 +156,7 @@ public class EventService {
 	public List<Event> getEventsOfUser(int user_id, int count){
 		return eventDao.getEventsOfUser(user_id, count);
 	}
+		
 	
 	public void delete(int id){
 		eventDao.delete(id);
@@ -151,4 +165,6 @@ public class EventService {
 	public void delete(int object_type, int object_id){
 		eventDao.delete(object_type, object_id);
 	}
+	
+	
 }

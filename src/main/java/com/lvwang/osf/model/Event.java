@@ -3,7 +3,9 @@ package com.lvwang.osf.model;
 import java.util.Date;
 import java.util.List;
 
-public class Event {
+import com.lvwang.osf.search.Searchable;
+
+public class Event implements Searchable{
 	
 	private int id;
 	private int object_type;
