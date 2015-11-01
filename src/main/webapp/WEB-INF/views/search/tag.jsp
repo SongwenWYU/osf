@@ -34,10 +34,10 @@
   <div class="container">
     <div class="row">  
           <div class="span8">  
-				<div class="ui icon input" id="search-bar">
-				  <input type="text" placeholder="搜索" value="${term }">
-				  <i class="circular search link icon"></i>
-				</div>
+				<form class="ui icon input" id="search-bar" action="<c:url value="/search/tag" />" method="get">
+				  <input type="text" placeholder="搜索" value="${term }" name="term">
+				  <i class="circular search link icon" id="search-bar-btn"></i>
+				</form>
 				<div class="ui secondary  menu">
 				  <a class="item" href="<c:url value="/search/feed?term=${term }" />">
 				    综合
