@@ -143,8 +143,8 @@ public class AlbumService {
 	}
 	
 	//获取用户的待发布相册
-	public int getToBeReleasedAlbum(int user_id) {
-		return albumDao.getAlbum(user_id, ALBUM_STAUS_TOBERELEASED);
+	public Integer getToBeReleasedAlbum(int user_id) {
+		return albumDao.getAlbumID(user_id, ALBUM_STAUS_TOBERELEASED);
 	}
 	
 	
@@ -195,8 +195,8 @@ public class AlbumService {
 		
 		
 		//save tag
-		Map<String, Object> tagsmap = tagService.newTags(album.getAlbum_tags());
-		album.setAlbum_tags((List<Tag>)tagsmap.get("tags"));
+		Map<String, Object> tagsmap = tagService.newTags(album.getAlbum_tags_list());
+		album.setAlbum_tags_list((List<Tag>)tagsmap.get("tags"));
 		
 		updateAlbumInfo(album);
 		updatePhotoDesc(album.getPhotos());

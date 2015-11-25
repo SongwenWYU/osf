@@ -8,6 +8,17 @@ public class Relation {
 	private int object_id;
 	private int tag_id;
 	private Date add_ts;
+	
+	public Relation() {
+		
+	}
+	
+	public Relation(int object_type, int object_id, int tag_id) {
+		this.object_type = object_type;
+		this.object_id = object_id;
+		this.tag_id = tag_id;
+	}
+	
 	public int getId() {
 		return id;
 	}

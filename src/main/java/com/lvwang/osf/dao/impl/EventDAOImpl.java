@@ -89,7 +89,7 @@ public class EventDAOImpl implements EventDAO{
 				ps.setString(7, post.getPost_title());
 				ps.setString(8, post.getPost_excerpt());
 				ps.setString(9, null);
-				ps.setString(10, TagService.toString(post.getPost_tags()));
+				ps.setString(10, TagService.toString(post.getPost_tags_list()));
 				return ps;
 			}
 		}, keyHolder);

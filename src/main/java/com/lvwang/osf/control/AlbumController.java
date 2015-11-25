@@ -33,6 +33,7 @@ import com.lvwang.osf.service.EventService;
 import com.lvwang.osf.service.FeedService;
 import com.lvwang.osf.service.FollowService;
 import com.lvwang.osf.service.InterestService;
+import com.lvwang.osf.service.TagService;
 import com.lvwang.osf.service.UserService;
 import com.lvwang.osf.util.Dic;
 import com.lvwang.osf.util.Property;
@@ -107,10 +108,15 @@ public class AlbumController {
 	public ModelAndView albumUploadPage(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		User user = (User) session.getAttribute("user");
-		int album_id = albumService.getToBeReleasedAlbum(user.getId());
-		List<Photo> photos = albumService.getPhotosOfAlbum(album_id);
-		session.setAttribute("album_id", album_id);
-		mav.addObject("photos", photos);
+		Integer album_id = albumService.getToBeReleasedAlbum(user.getId());
+		if(album_id != null) {
+			List<Photo> photos = albumService.getPhotosOfAlbum(album_id);
+			session.setAttribute("album_id", album_id);
+			//mav.addObject("photos", photos); 
+			session.setAttribute("photos", photos);
+		} else {
+			session.setAttribute("photos", new ArrayList<Photo>());
+		}
 		mav.setViewName("album/upload");
 		return mav;
 	}
@@ -185,7 +191,8 @@ public class AlbumController {
 			JsonNode tags = root.path("tags");
 			if(tags.size() > 0) {
 				List<Tag> tag_list = new ArrayList<Tag>();
-				album.setAlbum_tags(tag_list);
+				album.setAlbum_tags_list(tag_list);
+				album.setAlbum_tags(TagService.toString(tag_list));
 				for(int i=0; i<tags.size(); i++) {
 					Tag t = new Tag();
 					t.setTag(tags.get(i).getTextValue());
@@ -222,7 +229,7 @@ public class AlbumController {
 		album.setId((Integer)session.getAttribute("album_id"));
 		User user = (User)session.getAttribute("user");
 		album.setUser_id(user.getId());
-		
+		album.setPhotos((List<Photo>)session.getAttribute("photos") );
 		List<Tag> tags = albumService.updateAlbum(album);
 		
 		int event_id = eventService.newEvent(Dic.OBJECT_TYPE_ALBUM, album);
@@ -280,8 +287,16 @@ public class AlbumController {
 		
 		//上传图片
 		Map<String, Object> photoMap = albumService.newPhoto(album_id, img, null);
+		Photo photo = (Photo)photoMap.get("photo");	
+		
+		List<Photo> photos = (List<Photo>)session.getAttribute("photos");
+		if(photos == null) {
+			photos = new ArrayList<Photo>();
+			session.setAttribute("photots", photos);
+		}
+		photos.add(photo);
+		
 		map.put("status", photoMap.get("status"));	
-		Photo photo = (Photo)photoMap.get("photo");		
 		map.put("id", photo.getId());
 		map.put("key", photo.getKey());
 		return map;

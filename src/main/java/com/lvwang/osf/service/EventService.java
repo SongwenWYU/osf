@@ -48,7 +48,7 @@ public class EventService {
 			event.setLike_count(post.getLike_count());
 			event.setShare_count(post.getShare_count());
 			event.setComment_count(post.getComment_count());
-			event.setTags(post.getPost_tags());
+			event.setTags(post.getPost_tags_list());
 			
 		} else if(Dic.OBJECT_TYPE_ALBUM == object_type) {
 			Album album = (Album)obj;
@@ -59,20 +59,15 @@ public class EventService {
 			event.setSummary(album.getAlbum_desc());
 			
 			List<Photo> photos = album.getPhotos();
-			List<Integer> ids = new ArrayList<Integer>();
+			StringBuffer keys = new StringBuffer();
 			for(Photo photo:photos) {
-				ids.add(photo.getId());
+				keys.append(photo.getKey()+":");
 			}
-			List<String> keys = albumDao.getKeys(ids);
-			StringBuffer buffer = new StringBuffer();
-			for(String key: keys) {
-				buffer.append(key+":");
-			}
-			event.setContent(buffer.toString());
+			event.setContent(keys.toString());
 			event.setLike_count(0);
 			event.setShare_count(0);
 			event.setComment_count(0);
-			event.setTags(album.getAlbum_tags());
+			event.setTags(album.getAlbum_tags_list());
 			
 		} else if(Dic.OBJECT_TYPE_PHOTO == object_type) {
 			//event_id = eventDao.savePhotoEvent((Photo)obj);

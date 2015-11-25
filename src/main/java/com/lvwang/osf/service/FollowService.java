@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -58,7 +59,7 @@ public class FollowService {
 		Following following = new Following();
 		following.setUser_id(user_id);
 		following.setFollowing_user_id(following_user_id);
-		if(!followDao.delFollowing(following)) {
+		if(followDao.delFollowing(following) == 0) {
 			map.put("status", Property.ERROR_FOLLOW_UNDO);
 			return map;
 		}
@@ -67,7 +68,7 @@ public class FollowService {
 		Follower follower = new Follower();
 		follower.setUser_id(following_user_id);
 		follower.setFollower_user_id(user_id);
-		if(followDao.delFollower(follower)) {
+		if(followDao.delFollower(follower) > 0) {
 			map.put("status", Property.SUCCESS_FOLLOW_UNDO);
 			map.put("follower", follower);
 		} else {
@@ -108,11 +109,16 @@ public class FollowService {
 		if(users == null || users.size() == 0) {
 			return null;
 		}
-		
+		Map<Integer, Boolean> result = new TreeMap<Integer, Boolean>();
 		List<Integer> users_id = new ArrayList<Integer>();
 		for(User user: users) {
 			users_id.add(user.getId());
+			result.put(user.getId(), false);
 		}
-		return followDao.isFollowingUsers(user_id, users_id);
+		List<Integer> following_users = followDao.isFollowingUsers(user_id, users_id);
+		for(int i=0; i<following_users.size(); i++) {
+			result.put(following_users.get(i), true);
+		}
+		return result;
 	}
 }

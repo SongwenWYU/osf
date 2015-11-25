@@ -19,7 +19,8 @@ public class Post {
 	private int share_count;
 	private int comment_count;
 	private String post_url;
-	private List<Tag> post_tags;
+	private String post_tags;
+	private List<Tag> post_tags_list;
 	private int post_album;
 	private String post_cover;
 	public int getId() {
@@ -106,11 +107,11 @@ public class Post {
 	public void setShare_count(int share_count) {
 		this.share_count = share_count;
 	}
-	public List<Tag> getPost_tags() {
-		return post_tags;
+	public List<Tag> getPost_tags_list() {
+		return post_tags_list;
 	}
-	public void setPost_tags(List<Tag> post_tags) {
-		this.post_tags = post_tags;
+	public void setPost_tags_list(List<Tag> post_tags_list) {
+		this.post_tags_list = post_tags_list;
 	}
 	public int getPost_album() {
 		return post_album;
@@ -123,6 +124,12 @@ public class Post {
 	}
 	public void setPost_cover(String post_cover) {
 		this.post_cover = post_cover;
+	}
+	public String getPost_tags() {
+		return post_tags;
+	}
+	public void setPost_tags(String post_tags) {
+		this.post_tags = post_tags;
 	}
 
 }

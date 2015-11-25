@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.lvwang.osf.dao.impl.ShortPostDAO;
+import com.lvwang.osf.dao.impl.ShortPostDAOImpl;
 import com.lvwang.osf.model.ShortPost;
 import com.lvwang.osf.util.Property;
 
@@ -16,7 +16,7 @@ public class ShortPostService extends PostService{
 
 	@Autowired
 	@Qualifier("shortPostDao")
-	private ShortPostDAO shortPostDao;
+	private ShortPostDAOImpl shortPostDao;
 	
 	public Map<String, Object> newPost(Integer author, String content){		
 		Map<String, Object> map = new HashMap<String, Object>();
