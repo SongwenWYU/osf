@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 
 import com.lvwang.osf.model.Post;
 
+
 public interface PostDAO {
 	
 	String TABLE = "osf_posts";
@@ -39,5 +40,6 @@ public interface PostDAO {
 	int save(Post post);
 	
 	@Delete("delete from " + TABLE + " where id = #{id}")
+	@Options(flushCache=true)
 	void delete(int id);
 }

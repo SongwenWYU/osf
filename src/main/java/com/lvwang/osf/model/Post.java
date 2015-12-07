@@ -1,10 +1,13 @@
 package com.lvwang.osf.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Post {
+public class Post implements Serializable{
 	
+
+	private static final long serialVersionUID = 1041319130842178407L;
 	private int id;
 	private int post_author;
 	private Date post_ts;
