@@ -36,7 +36,7 @@ public interface PostDAO {
 			+ "post_pwd, comment_status, post_tags, post_cover)"
 			+ " values(#{post_author},#{post_title},#{post_content},#{post_excerpt},"
 			+ "#{post_status},#{post_pwd},#{comment_status},#{post_tags},#{post_cover})")
-	@Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id", flushCache=true)
+	@Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id", useCache=true)
 	int save(Post post);
 	
 	@Delete("delete from " + TABLE + " where id = #{id}")
