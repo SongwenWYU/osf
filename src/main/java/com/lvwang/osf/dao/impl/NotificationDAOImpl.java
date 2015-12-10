@@ -147,7 +147,8 @@ public class NotificationDAOImpl implements NotificationDAO{
 		notifications.put("system", 0);
 	}
 	
-	private Map<String, Integer> getNotifications(final Map<String, Integer> notifications, int user_id){
+	private Map<String, Integer> getNotificationsCountOfUser(int user_id){
+		final Map<String, Integer> notifications = new HashMap<String, Integer>();
 		initNotification(notifications);
 		String sql = "select notified_user,notify_type,count(*) count from " 
 				 + TABLE + " where notified_user=? group by notified_user,notify_type";			
@@ -167,8 +168,8 @@ public class NotificationDAOImpl implements NotificationDAO{
 	}
 	
 	public void refresh(int user_id){
-		Map<String, Integer> notifications = new HashMap<String, Integer>();
-		hashOps.putAll(NOTIFY_KEY+user_id, getNotifications(notifications, user_id));
+		
+		hashOps.putAll(NOTIFY_KEY+user_id, getNotificationsCountOfUser(user_id));
 	}
 	
 	public Map<String, Integer> getNotificationsCount(int user_id) {
@@ -176,7 +177,7 @@ public class NotificationDAOImpl implements NotificationDAO{
 		
 		if(!redisTemplate.hasKey(NOTIFY_KEY+user_id)){
 			
-			hashOps.putAll(NOTIFY_KEY+user_id, getNotifications(notifications, user_id));
+			refresh(user_id);
 
 		} else{
 			for(String key: hashOps.keys(NOTIFY_KEY+user_id)){
