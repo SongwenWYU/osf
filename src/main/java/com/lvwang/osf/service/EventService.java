@@ -48,7 +48,7 @@ public class EventService {
 			event.setLike_count(post.getLike_count());
 			event.setShare_count(post.getShare_count());
 			event.setComment_count(post.getComment_count());
-			event.setTags(post.getPost_tags_list());
+			event.setTags_list(post.getPost_tags_list());
 			
 		} else if(Dic.OBJECT_TYPE_ALBUM == object_type) {
 			Album album = (Album)obj;
@@ -67,7 +67,7 @@ public class EventService {
 			event.setLike_count(0);
 			event.setShare_count(0);
 			event.setComment_count(0);
-			event.setTags(album.getAlbum_tags_list());
+			event.setTags_list(album.getAlbum_tags_list());
 			
 		} else if(Dic.OBJECT_TYPE_PHOTO == object_type) {
 			//event_id = eventDao.savePhotoEvent((Photo)obj);
@@ -158,7 +158,7 @@ public class EventService {
 	}
 	
 	public void delete(int object_type, int object_id){
-		eventDao.delete(object_type, object_id);
+		eventDao.deleteByObject(object_type, object_id);
 	}
 	
 	

@@ -34,6 +34,6 @@ public interface EventDAO {
 	List<Event> getEventsOfUser(int user_id, int count);
 	List<Event> getEventsHasPhoto(int start, int step);
 	void delete(int id);
-	void delete(int object_type, int object_id);
+	void deleteByObject(int object_type, int object_id);
 	Event getEvent(int object_type, int object_id);
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.lvwang.osf.search.Searchable;
+import com.lvwang.osf.service.TagService;
 
 public class Event implements Searchable{
 	
@@ -107,7 +108,10 @@ public class Event implements Searchable{
 	public List<Tag> getTags() {
 		return tags;
 	}
-	public void setTags(List<Tag> tags) {
+	public void setTags(String tags) {
+		this.tags = TagService.toList(tags);
+	}
+	public void setTags_list(List<Tag> tags) {
 		this.tags = tags;
 	}
 	public int getFollowing_user_id() {
