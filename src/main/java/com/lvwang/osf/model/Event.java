@@ -22,6 +22,7 @@ public class Event implements Searchable{
 	private String summary;
 	private String content;
 	private List<Tag> tags;
+	private String tags_str;
 	private int following_user_id;
 	private String following_user_name;
 	private int follower_user_id;
@@ -107,6 +108,9 @@ public class Event implements Searchable{
 	}
 	public List<Tag> getTags() {
 		return tags;
+	}
+	public String getTags_str(){
+		return TagService.toString(tags);
 	}
 	public void setTags(String tags) {
 		this.tags = TagService.toList(tags);
