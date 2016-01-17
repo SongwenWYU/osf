@@ -193,8 +193,10 @@ public class NotificationDAOImpl{
 	}
 	
 	public void refreshNotification(Notification notification) {
-		hashOps.increment(NOTIFY_KEY+notification.getNotified_user(), 
-						  Dic.toNotifyTypeDesc(notification.getNotify_type()), 1);
+		//hashOps.increment(NOTIFY_KEY+notification.getNotified_user(), 
+		//				  Dic.toNotifyTypeDesc(notification.getNotify_type()), 1);
+		long count = hashOps.get(NOTIFY_KEY+notification.getNotified_user(), Dic.toNotifyTypeDesc(notification.getNotify_type()));
+		hashOps.put(NOTIFY_KEY+notification.getNotified_user(), Dic.toNotifyTypeDesc(notification.getNotify_type()), count+1);
 	}
 	
 	public Map<String, Long> getNotificationsCount(int user_id) {
