@@ -23,4 +23,8 @@ public interface UserDAO {
 	String getRestPwdKey(String email);
 	void updateResetPwdKey(String email, String key);
 	void updatePassword(String email, String password);
+	
+	void insertToken(String token, User user);
+	boolean containsToken(String token);
+	User getUserByToken(String token);
 }

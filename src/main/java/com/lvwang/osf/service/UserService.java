@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -79,6 +80,16 @@ public class UserService {
 //			return Property.ERROR_PWD_DIFF;
 //			
 //	}
+	
+	public String newToken(User user) {
+		String token = UUID.randomUUID().toString();
+		userDao.insertToken(token, user);
+		return token;
+	}
+	
+	public boolean checkToken(String token) {
+		return userDao.containsToken(token);
+	}
 	
 	public User findByUsername(String username) {
 		User user = userDao.getUserByUsername(username);

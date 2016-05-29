@@ -26,14 +26,12 @@ public class AccountAPI {
 
 	@ResponseBody
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public Map<String, Object> login(@RequestBody User user,
-					    HttpSession session) {
+	public Map<String, Object> login(@RequestBody User user) {
 		
 		Map<String, Object> ret = userService.login(user.getUser_email(), user.getUser_pwd());
 		String status = (String) ret.get("status");
 		if(Property.SUCCESS_ACCOUNT_LOGIN.equals(status)) {
-			ret.put("api_key", "key_for_login_auth");
-			session.setAttribute("user", (User)ret.get("user"));			
+			ret.put("token", userService.newToken(user));	
 		}
 		return ret;		
 
