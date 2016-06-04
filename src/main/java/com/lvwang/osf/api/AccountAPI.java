@@ -31,7 +31,7 @@ public class AccountAPI {
 		Map<String, Object> ret = userService.login(user.getUser_email(), user.getUser_pwd());
 		String status = (String) ret.get("status");
 		if(Property.SUCCESS_ACCOUNT_LOGIN.equals(status)) {
-			ret.put("token", userService.newToken(user));	
+			ret.put("token", userService.newToken((User)ret.get("user")));	
 		}
 		return ret;		
 

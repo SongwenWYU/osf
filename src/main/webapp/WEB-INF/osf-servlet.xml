@@ -9,7 +9,11 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
-	<mvc:annotation-driven />	
+	<mvc:annotation-driven>
+		<mvc:argument-resolvers>
+			<bean class="com.lvwang.osf.web.RequestAttributeArgumentResolver"></bean>
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
 	<context:component-scan base-package="com.lvwang.osf.control">
 	</context:component-scan>
 	<context:component-scan base-package="com.lvwang.osf.web">

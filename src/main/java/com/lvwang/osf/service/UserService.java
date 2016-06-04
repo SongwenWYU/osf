@@ -91,6 +91,10 @@ public class UserService {
 		return userDao.containsToken(token);
 	}
 	
+	public User findUserByToken(String token) {
+		return userDao.getUserByToken(token);
+	}
+	
 	public User findByUsername(String username) {
 		User user = userDao.getUserByUsername(username);
 //		if(user != null){

@@ -110,6 +110,10 @@ public class CipherUtil {
 		return null;
 	}
 	
+	public static String sign(String str) {
+		return encodeByMD5(str);
+	}
+	
 	/*
 	 * 转换字节数组为十六进制字符串
 	 * @param	字节数字
