@@ -2,8 +2,10 @@ package com.lvwang.osf.control;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -117,20 +119,25 @@ public class PostController {
 			int event_id = eventService.newEvent(Dic.OBJECT_TYPE_POST, post);
 			
 			//3 push to followers
-			if(event_id !=0 ) {
-				feedService.push(user.getId(), event_id);
-			}
+			List<Integer> followers = followService.getFollowerIDs(user.getId());
+			followers.add(user.getId());
+			feedService.push(followers, event_id);
 			
 			//4 push to users who follow the tags in the post
 			List<Tag> tags = (ArrayList<Tag>)map.get("tags");
+			//push to users who follow the tags
+			Set<Integer> followers_set = new HashSet<Integer>();
 			for(Tag tag : tags) {
 				List<Integer> i_users = interestService.getUsersInterestedInTag(tag.getId());
-				for(int u : i_users) {
-					feedService.push(u, event_id);
+				for(int u: i_users) {
+					if(u != user.getId())
+						followers_set.add(u);
 				}
-				//5 cache feeds to tag list
+							
+				//cache feeds to tag list
 				feedService.cacheFeed2Tag(tag.getId(), event_id);
 			}
+			feedService.push(new ArrayList<Integer>(followers_set), event_id);
 			
 		}
 		return map;

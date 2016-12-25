@@ -345,5 +345,21 @@ public class UserDAOImpl implements UserDAO{
 			}
 		});
 	}
+
+	public void insertToken(String token, User user) {
+		mapOps.put("tokens:", token, user);
+	}
+
+	public void delToken(String token) {
+		mapOps.delete("tokens:", token);
+	}
+	
+	public boolean containsToken(String token) {
+		return mapOps.hasKey("tokens:", token);
+	}
+
+	public User getUserByToken(String token) {
+		return (User) mapOps.get("tokens:", token);
+	}
 	
 }

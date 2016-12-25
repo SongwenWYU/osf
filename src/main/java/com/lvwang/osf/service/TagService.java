@@ -102,8 +102,8 @@ public class TagService {
 			ret.put("tag", tg);
 			return ret;
 		}
-	
-		id = tagDao.save(tag);
+		
+		id = tagDao.save(new Tag(tag));
 		if(id != 0) {
 			Tag tg = new Tag();
 			tg.setId(id);
@@ -131,8 +131,8 @@ public class TagService {
 				return ret;
 			}
 			
-			int id = tagDao.getTagID(tag.getTag());
-			if(id != 0) {
+			Integer id = tagDao.getTagID(tag.getTag());
+			if(id != null) {
 				Tag tg = new Tag();				
 				tg.setId(id);
 				tg.setTag(tag.getTag());
@@ -140,8 +140,8 @@ public class TagService {
 				continue;
 			}
 						
-			id = tagDao.save(tag.getTag());
-			if(id != 0) {
+			id = tagDao.save(tag);
+			if(id != null) {
 				Tag tg = new Tag();	
 				tg.setId(id);
 				tg.setTag(tag.getTag());
@@ -192,6 +192,10 @@ public class TagService {
 	}
 	
 	public List<Tag> getTagsByIDs(List<Integer> ids) {
-		return tagDao.getTags(ids);
+		List<String> ids_str = new ArrayList<String>();
+		for(int i=0; i<ids.size(); i++) {
+			ids_str.add(String.valueOf(ids.get(i)));
+		}
+		return tagDao.getTags(ids_str);
 	}
 }

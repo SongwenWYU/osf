@@ -9,6 +9,15 @@ public class Tag implements Searchable{
 	private String tag;
 	private Date add_ts;
 	private String cover;
+	
+	public Tag() {
+		
+	}
+	
+	public Tag(String tag) {
+		this.tag = tag;
+	}
+	
 	public int getId() {
 		return id;
 	}

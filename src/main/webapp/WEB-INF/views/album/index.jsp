@@ -68,7 +68,7 @@
 							</c:forEach>
 						</div>
 						<div class="meta tags">
-							<c:forEach items="${album.album_tags }" var="tag">
+							<c:forEach items="${album.album_tags_list }" var="tag">
                         		<a class="ui label" href="<c:url value="/tag/${tag.id }"/>">${tag.tag }</a>
                         	</c:forEach>							
 						</div>		

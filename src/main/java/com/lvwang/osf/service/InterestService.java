@@ -3,12 +3,14 @@ package com.lvwang.osf.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lvwang.osf.dao.InterestDAO;
+import com.lvwang.osf.model.Interest;
 import com.lvwang.osf.model.Tag;
 
 @Service("interestService")
@@ -25,7 +27,8 @@ public class InterestService {
 	 * @param tag_id
 	 */
 	public void interestInTag(int user_id, int tag_id) {
-		interestDao.saveInterest(user_id, tag_id);
+		Interest interest = new Interest(user_id, tag_id);
+		interestDao.saveInterest(interest);
 	}
 	
 	
@@ -36,7 +39,8 @@ public class InterestService {
 	 * @param tag_id
 	 */
 	public void undoInterestInTag(int user_id, int tag_id){
-		interestDao.delInterest(user_id, tag_id);
+		Interest interest = new Interest(user_id, tag_id);
+		interestDao.delInterest(interest);
 	}
 	
 	/**
@@ -72,13 +76,18 @@ public class InterestService {
 		if(tags == null || tags.size() == 0 ){
 			return null;
 		}
-		List<Integer> tags_id = new ArrayList<Integer>();
+		Map<Integer, Boolean> result = new TreeMap<Integer, Boolean>();
+		List<Integer> tag_ids = new ArrayList<Integer>();
 		for(Tag tag: tags){
-			tags_id.add(tag.getId());
+			tag_ids.add(tag.getId());
+			result.put(tag.getId(), false);
 		}
 		
-		return interestDao.hasInterestInTags(user_id, tags_id);
-		
+		List<Integer> interested_tags = interestDao.hasInterestInTags(user_id, tag_ids);
+		for(int i=0; i<interested_tags.size(); i++) {
+			result.put(interested_tags.get(i), true);
+		}
+		return result;
 	}
 	
 	/**

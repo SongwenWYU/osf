@@ -1,5 +1,6 @@
 package com.lvwang.osf.control;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -16,6 +17,7 @@ import com.lvwang.osf.model.ShortPost;
 import com.lvwang.osf.model.User;
 import com.lvwang.osf.service.EventService;
 import com.lvwang.osf.service.FeedService;
+import com.lvwang.osf.service.FollowService;
 import com.lvwang.osf.service.ShortPostService;
 import com.lvwang.osf.service.UserService;
 import com.lvwang.osf.util.Dic;
@@ -40,6 +42,10 @@ public class ShortPostController {
 	@Qualifier("userService")
 	private UserService userService;
 	
+	@Autowired
+	@Qualifier("followService")
+	private FollowService followService;
+	
 	@ResponseBody
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public Map<String, Object> createPost(@RequestParam("content") String content,
@@ -49,7 +55,10 @@ public class ShortPostController {
 		
 		ShortPost spost = (ShortPost) map.get("spost");	
 		int event_id = eventService.newEvent(Dic.OBJECT_TYPE_SHORTPOST, spost);
-		feedService.push(user.getId(), event_id);
+		
+		List<Integer> followers = followService.getFollowerIDs(user.getId());
+		followers.add(user.getId());
+		feedService.push(followers, event_id);
 		
 		map.put("avatar", userService.findById(user.getId()).getUser_avatar());
 		map.put("author_name", user.getUser_name());

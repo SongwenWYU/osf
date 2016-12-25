@@ -4,24 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-
-
-
-
-
-
-
-
-
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lvwang.osf.dao.PostDAO;
@@ -123,7 +111,7 @@ public class PostService {
 			//此处会为tag建立index
 			Map<String, Object> tagsmap = tagService.newTags(tagService.toList(param_tags));
 			
-			post.setPost_tags((List<Tag>)tagsmap.get("tags"));
+			post.setPost_tags_list((List<Tag>)tagsmap.get("tags"));
 			int id = savePost(post);
 			post.setId(id);
 			
