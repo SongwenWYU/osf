@@ -20,9 +20,9 @@ import com.qiniu.util.StringMap;
 @Repository("albumDao")
 public class AlbumDAOImpl implements AlbumDAO{
 	
-	private static final String AK = "1mAeoCNoX25n_QiPGK-aS8895kQ4RedWWYb6LCpK";
-	private static final String SK = "kJBUkzruYDjmnmx8UDsjMHD2OEw5SzTi36WP2BD4";
-	private static final String bucket = "osfimg";
+	private static final String AK = "fpkPpZD69KlXKlz8xR6jxEG6UtQ8hxtlnonGDhYY";
+	private static final String SK = "kCXacra1ds3DJmTuX8Adv1hklgzeuI15T7AX1Gcy";
+	private static final String bucket = "osfimgs2";
 	private Auth auth = Auth.create(AK, SK);
 	private BucketManager bucketManager = new BucketManager(auth);
 	

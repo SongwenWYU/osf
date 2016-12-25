@@ -19,8 +19,10 @@ import com.lvwang.osf.model.User;
 import com.lvwang.osf.service.FeedService;
 import com.lvwang.osf.service.InterestService;
 import com.lvwang.osf.service.TagService;
+import com.lvwang.osf.service.UserService;
 import com.lvwang.osf.util.Dic;
 import com.lvwang.osf.util.Property;
+import com.lvwang.osf.web.RequestAttribute;
 
 @Controller
 @RequestMapping("/api/v1/tag")
@@ -37,6 +39,10 @@ public class TagAPI {
 	@Autowired
 	@Qualifier("feedService")
 	private FeedService feedService;
+	
+	@Autowired
+	@Qualifier("userService")
+	private UserService userService;
 	
 	@ResponseBody
 	@RequestMapping("/{tag_id}")
@@ -70,7 +76,7 @@ public class TagAPI {
 	@RequestMapping("/{tag_id}/page/{page}")
 	public Map<String, Object> getFeedsByTagOfPage(@PathVariable("tag_id") int tag_id, 
 											@PathVariable("page") int page,
-											HttpSession session) {
+											@RequestAttribute("uid") Integer id) {
 		
 		Tag tag = tagService.getTagByID(tag_id);
 		if(tag == null) {
@@ -78,7 +84,10 @@ public class TagAPI {
 		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		User user = (User) session.getAttribute("user");
+		User user = null;
+		if(id != null && id !=0) {
+			user = (User) userService.findById(id);
+		}
 		
 		List<Event> feeds = feedService.getFeedsByTagOfPage(user!=null?user.getId():0, tag_id, page);
 		map.put("feeds", feeds);

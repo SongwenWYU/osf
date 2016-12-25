@@ -17,7 +17,7 @@ import com.lvwang.osf.search.EventIndexService;
 @Service("feedService")
 public class FeedService {
 
-	public static final int FEED_COUNT_PER_PAGE = 5;
+	public static final int FEED_COUNT_PER_PAGE = 10;
 	public static final int FEED_COUNT = 200;	//feed缓存量
 	
 	@Autowired
@@ -56,9 +56,7 @@ public class FeedService {
 	@Qualifier("eventIndexService")
 	private EventIndexService eventIndexService;
 	
-	public void push(int user_id, int event_id) {
-		List<Integer> followers = followService.getFollowerIDs(user_id);
-		followers.add(user_id);	//add self
+	public void push(List<Integer> followers, int event_id) {
 		if(followers != null && followers.size()!=0) {
 			for(Integer follower: followers) {
 				feedDao.save("feed:user:"+follower, event_id);
@@ -101,16 +99,48 @@ public class FeedService {
 			updLikeCount(user_id, events);
 			addCommentCount(events);
 		}
+		System.out.println("events size: "+events.size());
 		return events;
 	}
 	
 	public List<Event> getFeedsOfPage(int user_id, int num) {
+		long all_feeds_count = feedDao.count("feed:user:"+user_id);
+		System.out.println("all feeds count :" + all_feeds_count);
 		List<Integer> event_ids = feedDao.fetch("feed:user:"+user_id, 
 												FEED_COUNT_PER_PAGE*(num-1), 
 												FEED_COUNT_PER_PAGE-1);
 		return decorateFeeds(user_id, event_ids);
 		
 	}
+	
+	public List<Event> getFeedsOfPage(int user_id, int num, int feed_id) {
+		List<Integer> event_ids = new ArrayList<Integer>(); 
+		int index = -1;
+		long all_feeds_count = feedDao.count("feed:user:"+user_id);
+		System.out.println("all feeds count :" + all_feeds_count);
+		while(index == -1) {
+			event_ids = feedDao.fetch("feed:user:"+user_id, 
+					FEED_COUNT_PER_PAGE*(num-1)-1, 
+					FEED_COUNT_PER_PAGE);
+			
+			if(FEED_COUNT_PER_PAGE*num >= all_feeds_count) {
+				break;
+			}
+			
+			num++;
+			index = event_ids.indexOf(feed_id);
+			System.out.println("index: " + index);
+		}
+		if(index != -1) {
+			event_ids = event_ids.subList(index+1, event_ids.size());
+			System.out.println("len: " + event_ids.size());
+			for(int id: event_ids) {
+				System.out.println("event id:"+id);
+			}
+		}
+		return decorateFeeds(user_id, event_ids);
+	}
+	
 	
 	public List<Event> addUserInfo(List<Event> events) {
 		if(events == null || events.size() == 0)

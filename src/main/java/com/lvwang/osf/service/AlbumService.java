@@ -133,6 +133,32 @@ public class AlbumService {
 		return map;
 	}
 	
+	public List<Tag> newPhotos(Album album) {
+		//save tag
+		Map<String, Object> tagsmap = tagService.newTags(album.getAlbum_tags_list());
+		album.setAlbum_tags_list((List<Tag>)tagsmap.get("tags"));
+		
+		updateAlbumInfo(album);
+		
+		//save relation 
+		for(Tag tag: (List<Tag>)tagsmap.get("tags")) {
+			relationService.newRelation(
+					 		RelationService.RELATION_TYPE_ALBUM, 
+					 		album.getId(), 
+					 		tag.getId()
+					 		);
+		}
+		List<Photo> photos = album.getPhotos();
+		for(Photo photo : photos) {
+			photo.setAlbum_id(album.getId());
+			photo.setId(albumDao.savePhoto(photo));
+		}
+		
+		return (List<Tag>)tagsmap.get("tags");
+		
+	}
+	
+	
 	public String checkUserOfAlbum(int album_id, int user_id) {
 		int id = albumDao.getAlbumUser(album_id);
 		if(id != user_id) {

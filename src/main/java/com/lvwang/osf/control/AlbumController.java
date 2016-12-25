@@ -4,8 +4,10 @@ package com.lvwang.osf.control;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -233,20 +235,25 @@ public class AlbumController {
 		List<Tag> tags = albumService.updateAlbum(album);
 		
 		int event_id = eventService.newEvent(Dic.OBJECT_TYPE_ALBUM, album);
-		//push to users who follow u
-		if(event_id !=0 ) {
-			feedService.push(user.getId(), event_id);
-		}
 		
-		//push to users who follow the tags in the album
+		//push to users who follow u
+		List<Integer> followers = followService.getFollowerIDs(user.getId());
+		followers.add(user.getId());
+		feedService.push(followers, event_id);
+		
+		//push to users who follow the tags
+		Set<Integer> followers_set = new HashSet<Integer>();
 		for(Tag tag : tags) {
 			List<Integer> i_users = interestService.getUsersInterestedInTag(tag.getId());
-			for(int u : i_users) {
-				feedService.push(u, event_id);
+			for(int u: i_users) {
+				if(u != user.getId())
+					followers_set.add(u);
 			}
+						
 			//cache feeds to tag list
 			feedService.cacheFeed2Tag(tag.getId(), event_id);
 		}
+		feedService.push(new ArrayList<Integer>(followers_set), event_id);
 		
 		map.put("album", album);
 		map.put("status", Property.SUCCESS_ALBUM_UPDATE);

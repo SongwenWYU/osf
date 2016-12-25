@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,6 +21,10 @@ public class APIAccessAuthRequiredInterceptor implements HandlerInterceptor {
 
 	
 	public static final String SECRET = "osf";
+	public static final String URL_TIMELINE = "/**/timeline/user/*/page/*/startfrom/*";
+	public static final String URL_TAG_PATTERN = "/**/tag/*/page/*";
+	public static final String URL_COMMENT_PATTERN = "/**/comment/*/*";
+	public static AntPathMatcher matcher = new AntPathMatcher();
 	
 	@Autowired
 	private UserService userService;
@@ -82,12 +87,28 @@ public class APIAccessAuthRequiredInterceptor implements HandlerInterceptor {
 
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp,
 			Object arg2) throws Exception {
-		System.out.println("uri: "+ req.getRequestURI());
+		String uri = req.getRequestURI();
+		System.out.println("uri: "+ uri);
 		System.out.println("api access required :"+req.getRequestURL());
 		System.out.println("query :"+req.getQueryString());		
 		if(checkSign(req)){
 			String token = req.getHeader("X-Auth-Token");
 			System.out.println("token:"+token);
+			if(token == null || token.length() == 0) {
+				if(matcher.match(URL_TIMELINE, uri)) {
+					System.out.println("no auth access with uri match : " + URL_TIMELINE );
+					req.setAttribute("uid", 0);
+					return true;
+				} else if(matcher.match(URL_TAG_PATTERN, uri)) {
+					System.out.println("no auth access with uri match : " + URL_TAG_PATTERN );
+					req.setAttribute("uid", 0);
+					return true;
+				} else if(matcher.match(URL_COMMENT_PATTERN, uri)) {
+					System.out.println("no auth access with uri match : " + URL_COMMENT_PATTERN);
+					req.setAttribute("uid", 0);
+					return true;
+				}
+			}
 			User user = token2User(token);
 			if(user == null) {
 				System.out.println("can not find user by token:"+token);
@@ -95,6 +116,7 @@ public class APIAccessAuthRequiredInterceptor implements HandlerInterceptor {
 			}
 			System.out.println("uid int" + user.getId());
 			req.setAttribute("uid", user.getId());
+			req.setAttribute("token", token);
 			return true;
 		}
 		

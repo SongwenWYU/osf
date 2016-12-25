@@ -1,7 +1,9 @@
 package com.lvwang.osf.api;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.lvwang.osf.model.Comment;
 import com.lvwang.osf.model.Notification;
@@ -23,6 +26,7 @@ import com.lvwang.osf.service.PostService;
 import com.lvwang.osf.service.UserService;
 import com.lvwang.osf.util.Dic;
 import com.lvwang.osf.util.Property;
+import com.lvwang.osf.web.RequestAttribute;
 
 @Controller
 @RequestMapping("/api/v1/comment") 
@@ -61,8 +65,8 @@ public class CommentAPI {
 	@ResponseBody
 	@RequestMapping(value="/create", method=RequestMethod.POST)	
 	public Map<String, String> createComment(@RequestBody Comment comment,
-											 HttpSession session) {
-		User user = (User)session.getAttribute("user");
+											 @RequestAttribute("uid") Integer id) {
+		User user = (User)userService.findById(id);
 		User comment_parent_author = new User();
 		if(comment.getComment_parent() !=0 ){
 			comment_parent_author = commentService.getCommentAuthor(comment.getComment_parent());
@@ -104,5 +108,21 @@ public class CommentAPI {
 		ret.put("reply_to_authorname", comment_parent_author.getUser_name());
 		return ret;
 	}
+
+	/**
+	 * feed附属的comments
+	 * @param type
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/{type}/{id}")
+	public Map<String, List<Comment>> getComments(@PathVariable("type") String type, @PathVariable("id") int id) {
+		System.out.println("type:"+type + " id:"+id);
+		Map<String, List<Comment>> comments = new TreeMap<String, List<Comment>>();
+		comments.put("comments", commentService.getComments(type, id));
+		return comments;
+	}
+	
 
 }
