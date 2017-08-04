@@ -17,6 +17,7 @@ import com.lvwang.osf.model.Photo;
 import com.lvwang.osf.model.Post;
 import com.lvwang.osf.model.Relation;
 import com.lvwang.osf.model.ShortPost;
+import com.lvwang.osf.search.EventIndexService;
 import com.lvwang.osf.util.Dic;
 
 @Service("eventService")
@@ -29,6 +30,10 @@ public class EventService {
 	@Autowired
 	@Qualifier("albumDao")
 	private AlbumDAO albumDao;
+		
+	@Autowired
+	@Qualifier("eventIndexService")
+	private EventIndexService eventIndexService;
 	
 	private Event toEvent(int object_type, Object obj) {
 		Event event = new Event();
@@ -43,7 +48,7 @@ public class EventService {
 			event.setLike_count(post.getLike_count());
 			event.setShare_count(post.getShare_count());
 			event.setComment_count(post.getComment_count());
-			event.setTags(post.getPost_tags());
+			event.setTags_list(post.getPost_tags_list());
 			
 		} else if(Dic.OBJECT_TYPE_ALBUM == object_type) {
 			Album album = (Album)obj;
@@ -54,20 +59,15 @@ public class EventService {
 			event.setSummary(album.getAlbum_desc());
 			
 			List<Photo> photos = album.getPhotos();
-			List<Integer> ids = new ArrayList<Integer>();
+			StringBuffer keys = new StringBuffer();
 			for(Photo photo:photos) {
-				ids.add(photo.getId());
+				keys.append(photo.getKey()+":");
 			}
-			List<String> keys = albumDao.getKeys(ids);
-			StringBuffer buffer = new StringBuffer();
-			for(String key: keys) {
-				buffer.append(key+":");
-			}
-			event.setContent(buffer.toString());
+			event.setContent(keys.toString());
 			event.setLike_count(0);
 			event.setShare_count(0);
 			event.setComment_count(0);
-			event.setTags(album.getAlbum_tags());
+			event.setTags_list(album.getAlbum_tags_list());
 			
 		} else if(Dic.OBJECT_TYPE_PHOTO == object_type) {
 			//event_id = eventDao.savePhotoEvent((Photo)obj);
@@ -84,9 +84,17 @@ public class EventService {
 		return event;
 	}
 	
-	
+	/**
+	 * 保存event，并索引
+	 * @param object_type
+	 * @param obj
+	 * @return event_id
+	 */
 	public int newEvent(int object_type, Object obj) {
-		int event_id = eventDao.save(toEvent(object_type, obj));
+		Event event = toEvent(object_type, obj);
+		int event_id = eventDao.save(event);
+		event.setId(event_id);
+		eventIndexService.add(event, obj);
 		return event_id;
 	}
 	
@@ -143,12 +151,15 @@ public class EventService {
 	public List<Event> getEventsOfUser(int user_id, int count){
 		return eventDao.getEventsOfUser(user_id, count);
 	}
+		
 	
 	public void delete(int id){
 		eventDao.delete(id);
 	}
 	
 	public void delete(int object_type, int object_id){
-		eventDao.delete(object_type, object_id);
+		eventDao.deleteByObject(object_type, object_id);
 	}
+	
+	
 }

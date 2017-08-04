@@ -2,11 +2,22 @@ package com.lvwang.osf.model;
 
 import java.util.Date;
 
-public class Tag {
+import com.lvwang.osf.search.Searchable;
+
+public class Tag implements Searchable{
 	private int id;
 	private String tag;
 	private Date add_ts;
 	private String cover;
+	
+	public Tag() {
+		
+	}
+	
+	public Tag(String tag) {
+		this.tag = tag;
+	}
+	
 	public int getId() {
 		return id;
 	}

@@ -15,6 +15,12 @@
 	        <li class="active"><a href="<c:url value="/explore" />">探索</a></li>
 	      </ul>
 	      <ul class="nav navbar-nav navbar-right">
+	      	<li>
+				<form class="ui icon input search" id="search-form" action="<c:url value="/search/feed" />" method="get">
+				  <input type="text" placeholder="搜索..."  name="term">
+				  <i class="circular search link icon" id="search-btn"></i>
+				</form>	      		      	
+	      	</li>
 	      	<c:if test="${not empty sessionScope.user}">
 	      		<li>
 	      			<%-- <a href='<c:url value="/user/${sessionScope.user.id }"></c:url>'>${sessionScope.user.user_name }</a> --%>

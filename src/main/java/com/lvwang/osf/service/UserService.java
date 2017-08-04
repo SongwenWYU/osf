@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.lvwang.osf.dao.UserDAO;
 import com.lvwang.osf.model.User;
+import com.lvwang.osf.search.UserIndexService;
 import com.lvwang.osf.util.CipherUtil;
 import com.lvwang.osf.util.Dic;
 import com.lvwang.osf.util.Property;
@@ -53,6 +55,10 @@ public class UserService {
 	@Qualifier("albumService")
 	private AlbumService albumService;
 	
+	@Autowired
+	@Qualifier("userIndexService")
+	private UserIndexService userIndexService;
+	
 	private boolean ValidateEmail(String email) {
 		boolean result = true;
 		try {
@@ -74,6 +80,24 @@ public class UserService {
 //			return Property.ERROR_PWD_DIFF;
 //			
 //	}
+	
+	public String newToken(User user) {
+		String token = UUID.randomUUID().toString();
+		userDao.insertToken(token, user);
+		return token;
+	}
+	
+	public void delToken(String token) {
+		userDao.delToken(token);
+	}
+	
+	public boolean checkToken(String token) {
+		return userDao.containsToken(token);
+	}
+	
+	public User findUserByToken(String token) {
+		return userDao.getUserByToken(token);
+	}
 	
 	public User findByUsername(String username) {
 		User user = userDao.getUserByUsername(username);
@@ -150,6 +174,66 @@ public class UserService {
 		ret.put("user", user);
 		return ret;
 	}
+	
+	@SuppressWarnings("deprecation")
+	public String register(String email, String password, String conformPwd, Map<String, String> map) {
+		//1 empty check
+		if(email == null || email.length() <= 0)
+			return Property.ERROR_EMAIL_EMPTY;
+		else{
+			//4 ValidateEmail
+			if(!ValidateEmail(email))
+				return Property.ERROR_EMAIL_FORMAT;
+			
+			//5 email exist?
+			User user = findByEmail(email);
+			if(user != null) {
+							
+				//6 user status check
+				if(STATUS_USER_NORMAL == user.getUser_status())
+					return Property.ERROR_ACCOUNT_EXIST;
+				else if(STATUS_USER_INACTIVE == user.getUser_status()){
+					map.put("activationKey", URLEncoder.encode(user.getUser_activationKey()));
+					return Property.ERROR_ACCOUNT_INACTIVE;
+				}
+				else if(STATUS_USER_LOCK == user.getUser_status())
+					return Property.ERROR_ACCOUNT_LOCK;
+				else if(STATUS_USER_CANCELLED == user.getUser_status()) 
+					return Property.ERROR_ACCOUNT_CANCELLED;
+			}			
+		}
+
+		if(password == null || password.length() <= 0)
+			return Property.ERROR_PWD_EMPTY;
+		else {
+			//3 password format validate
+			String vpf_rs = CipherUtil.validatePasswordFormat(password);
+			if(vpf_rs != Property.SUCCESS_PWD_FORMAT)
+				return vpf_rs;
+		}
+		if(conformPwd == null || conformPwd.length() <= 0)
+			return Property.ERROR_CFMPWD_EMPTY;
+				
+		//2 pwd == conformPwd ?
+		if(!password.equals(conformPwd))
+			return Property.ERROR_CFMPWD_NOTAGREE;
+					
+		
+		User user = new User();
+		user.setUser_pwd(CipherUtil.generatePassword(password));
+		user.setUser_email(email);
+		user.setUser_status(STATUS_USER_INACTIVE);
+		user.setUser_avatar(DEFAULT_USER_AVATAR);
+		String activationKey = CipherUtil.generateActivationUrl(email, password);
+		user.setUser_activationKey(activationKey);
+		int id =userDao.save(user);
+		
+		map.put("id", String.valueOf(id));
+		map.put("activationKey", activationKey);
+		return Property.SUCCESS_ACCOUNT_REG;
+		
+	}
+		
 	
 	
 	@SuppressWarnings("deprecation")
@@ -445,5 +529,14 @@ public class UserService {
 		} else {
 			return new User();
 		}
+	}
+	
+	public void indexUser(User user){
+		userIndexService.add(user);
+	}
+	
+	public List<User> searchUserByName(String username) {
+		List<Integer> user_ids = userIndexService.findUserByName(username);
+		return findAllbyIDs(user_ids);	
 	}
 }

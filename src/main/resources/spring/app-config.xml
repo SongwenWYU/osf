@@ -17,6 +17,7 @@
 	<context:component-scan base-package="com.lvwang.osf.dao.impl" />
 	<context:component-scan base-package="com.lvwang.osf.service" />
 	<context:component-scan base-package="com.lvwang.osf.util" />
+	<context:component-scan base-package="com.lvwang.osf.search" />
 	
 	<context:property-placeholder location="classpath:spring/property.properties"/>
 	
@@ -35,6 +36,19 @@
 	
 	<bean id="namedParaJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
 		<constructor-arg ref="dataSource"/>
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="typeAliasesPackage" value="com.lvwang.osf.model"></property>
+
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+	</bean>
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	     <constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	  <property name="basePackage" value="com.lvwang.osf.mappers" />
 	</bean>
 	
 	<bean id="jedisConnFactory" 

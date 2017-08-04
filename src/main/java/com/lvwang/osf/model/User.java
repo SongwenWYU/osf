@@ -3,13 +3,16 @@ package com.lvwang.osf.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class User implements Serializable{
+import com.lvwang.osf.search.Searchable;
+
+public class User implements Serializable, Searchable{
 
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String user_name;
 	private String user_email;
 	private String user_pwd;
+	private String user_cfm_pwd;
 	private String user_nicename;
 	private Date user_registered_date;
 	private int user_status;
@@ -84,5 +87,11 @@ public class User implements Serializable{
 	}
 	public void setUser_desc(String user_desc) {
 		this.user_desc = user_desc;
+	}
+	public String getUser_cfm_pwd() {
+		return user_cfm_pwd;
+	}
+	public void setUser_cfm_pwd(String user_cfm_pwd) {
+		this.user_cfm_pwd = user_cfm_pwd;
 	}
 }

@@ -33,7 +33,7 @@ public class RelationService {
 	@Transactional
 	public Map<String, Object> newRelation(int object_type, int object_id, int tag_id) {
 		Map<String, Object> ret = new HashMap<String, Object>();
-		int id = relationDao.save(object_type, object_id, tag_id);
+		int id = relationDao.save(new Relation(object_type, object_id, tag_id));
 		if(id != 0){
 			Relation relation = new Relation();
 			relation.setId(id);
@@ -79,12 +79,12 @@ public class RelationService {
 		if(tags == null || tags.size() == 0)
 			return new ArrayList<Relation>();
 		
-		List<Integer> tags_id = new ArrayList<Integer>();
+		List<String> tag_ids = new ArrayList<String>();
 		for(Tag tag : tags) {
-			tags_id.add(tag.getId());
+			tag_ids.add(String.valueOf(tag.getId()));
 		}
 		
-		return relationDao.getRelationsInTags(tags_id);
+		return relationDao.getRelationsInTags(tag_ids);
 	}
 	
 }

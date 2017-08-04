@@ -38,7 +38,9 @@ a {
  .postmeta .tags {
  	float: right;
  } 
- 	
+ .post .post-content{
+ 	word-break: break-all;
+ }	
  #tags {
  	padding-left: 20px;
  }
@@ -351,6 +353,11 @@ a {
   padding: 10px 4px 12px 0;
 }
 
+.navbar-nav .search{
+	margin-top: 7px;
+    margin-right: 20px;
+}
+
 .ui.simple.dropdown .menu {
 	right: 3px;
 	left: auto;
@@ -375,7 +382,10 @@ a {
 .ui.feed .content .extra img {
 	width: 100%;
 }
-
+.ui.feed .content .extra img.emojione{
+	width: 20px;
+	height: 20px;
+}
 .ui.feed > .event > .content .meta{
 	width: 100%;
 	margin-top: 10px;
@@ -386,7 +396,9 @@ a {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
-
+.ui.feed > .event > .content .extra{
+	word-break: break-all;
+}
 .header_box{
 	display: table;
 	margin-bottom: 40px;
@@ -425,6 +437,19 @@ a {
 	background: #FFFFFF;
 	border: 1px solid #DEDEDE;	
 }
+.short_post #img_upload_btn{
+	float: left;
+}
+.short_post #img_upload_btn i{
+    color: grey;
+    padding: 7px;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+.short_post #img_upload_btn i:hover{
+	cursor: pointer;
+	color: orange;
+}
 
 #action_bar textarea {
 	width: 100%;
@@ -440,6 +465,7 @@ a {
 #action_bar .bar{
 	padding: 5px;
 	border-top: 1px solid #DEDEDE;
+	overflow: hidden;
 }
 #action_bar .bar .button{
 	float: right;
@@ -594,7 +620,7 @@ a {
 
 
 
-.explore .users .userbox{ 
+.explore .users .userbox{
 	height: 180px;
 	width: 916px;
 	margin: 0 auto;
@@ -602,7 +628,16 @@ a {
 	overflow: hidden;
 	margin-bottom: 30px;
 }
-.explore .users .userbox .header{
+.search.users .userbox{ 
+	height: 150px;
+	width: 100%;
+	margin: 0 auto;
+	background-color: white;
+	overflow: hidden;
+	margin-bottom: 30px;
+}
+.explore .users .userbox .header,
+.search.users .userbox .header{
 	display: inline-block;
 	width: 180px;
 	height: 180px;
@@ -610,25 +645,39 @@ a {
 	text-align: center;
 	margin-top: 0;
 }
+.search.users .userbox .header{
+	width: 150px;
+	height: 150px;	
+}
 
-.explore .userbox .header .avatar{
+.explore .userbox .header .avatar,
+.search .userbox .header .avatar{
 	width: 70px;
 	height: 70px;
 	border-radius: 60px;
 	margin-top: 20px;
 	margin-bottom: 5px;
 }
-.explore .userbox .header .desc{
+.search .userbox .header .avatar{
+	margin: 0;
+}
+.explore .userbox .header .desc,
+.search .userbox .header .desc{
 	margin: 10px;
 }
-.explore .userbox .content{
-	float: right;
+.explore .userbox .content,
+.search  .userbox .content{
+	/* float: right; */
 	display: inline-block;
 	height: 180px;
 	overflow: hidden;
-	
 }
-.explore .userbox .content  .box{
+.search  .userbox .content{
+	height: 150px;
+}
+
+.explore .userbox .content  .box,
+.search .userbox .content  .box{
 	position: relative;
 	display: inline-block;
 	height: 180px;
@@ -636,12 +685,24 @@ a {
 	line-height: 180px;
 	overflow: hidden;
 }
-.explore .userbox .content  .box img{
+.search .userbox .content  .box{
+	height: 150px;
+	width: 150px;
+	line-height: 150px;	
+	margin-left: 2px;
+}
+.explore .userbox .content  .box img,
+.search .userbox .content  .box img{
 	height: 180px;
 	width: 180px;
 	vertical-align: auto;
 }
-.explore .userbox .content .cover{
+.search .userbox .content  .box img {
+	height: 150px;
+	width: 150px;
+}
+.explore .userbox .content .cover,
+.search .userbox .content .cover{
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -653,6 +714,11 @@ a {
 	font-size: 16px;
 	padding: 10px;
 }
+.search .userbox .content .cover{
+	height: 150px;
+	width: 150px;	
+}
+
 
 /****************
 	comment style
@@ -821,3 +887,87 @@ trash-tip style
     color: #B5B5B5;
 }
 
+/**********
+emoji style
+-----------
+**********/
+
+.emojione {
+  /* Emoji Sizing */
+  font-size: inherit;
+  height: 3ex;
+  width: 3.1ex;
+  min-height: 20px;
+  min-width: 20px;
+
+  /* Inline alignment adjust the margins  */
+  display: inline-block;
+  margin: -.2ex .15em .2ex;
+  line-height: normal;
+  vertical-align: middle;
+}
+
+img.emojione {
+    width: 20px;
+    height: 20px;
+}
+#emoji-list-container{
+	display: none;
+	width: 100%;
+	padding: 10px;
+}
+.emoji-list li {
+    margin-bottom: 0.2em;
+    margin-right: 0.2em;
+    /*width: 1.1em;*/
+    list-style: none;
+    float: left;
+}
+
+/*****************
+* search style
+******************/
+
+#search-bar{
+	width:100%;
+}
+#search-bar input{
+	width:100%;
+}
+
+.search.tagboxes{
+	width: 100%;
+
+}
+.search .tagbox, .search .tagbox .header{
+	width:100%;
+	overflow: hidden;
+	background: white;
+}
+.search .tagbox{
+	margin-bottom: 20px;
+}
+.search .tagbox .header .tag{
+	float: left;
+	font-size: 20px;
+	margin: 20px;
+}
+.search .tagbox .header .interest{
+	float: right;
+	margin: 20px;
+}
+
+.search .tagbox .content{
+	width: 100%;
+	overflow: hidden;
+}
+.search .tagbox .content .imgbox{
+	display: inline-block;
+	width: 32.2%;
+	height: 200px;
+	margin-left: 1%;
+	overflow: hidden;
+}
+.search .tagbox .content .imgbox:FIRST-CHILD {
+	margin-left: 0;
+}

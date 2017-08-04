@@ -3,6 +3,8 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resoures"/>
         <property name="context-root" value="com.lvwang.osf"/>
         <property name="java-output-path" value="/com.lvwang.osf/target/classes"/>
     </wb-module>

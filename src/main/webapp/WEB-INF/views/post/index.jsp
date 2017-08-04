@@ -70,14 +70,14 @@
 									</c:if>
 								</div>
 								<div class="tags">
-									<c:forEach items="${post.post_tags }" var="tag">
+									<c:forEach items="${post.post_tags_list }" var="tag">
 										<a class="ui label" href="<c:url value="/tag/${tag.id}" />">${tag.tag }</a>
 									</c:forEach>
 								</div>
 							</div>
-							<p>
+							<div class="post-content">
 								${post.post_content }
-							</p>
+							</div>
 
 						</div>
 						<div>

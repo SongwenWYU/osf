@@ -36,7 +36,7 @@
                   <div class="ui feed" id="feeds">
  					<%@ include file="../nextpage.jsp" %>                                     
                   </div>  <!--end feed -->
-                  <a id="next" href="<c:url value="/${id}/page/2" />"></a>
+                  <a id="next" href="<c:url value="/tag/${id}/page/2" />"></a>
             </div> <!-- end span8  -->
           <div class="span4">
           	<div id="rightside">

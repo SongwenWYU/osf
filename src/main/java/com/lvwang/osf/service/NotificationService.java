@@ -1,5 +1,7 @@
 package com.lvwang.osf.service;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lvwang.osf.dao.NotificationDAO;
+import com.lvwang.osf.dao.impl.NotificationDAOImpl;
 import com.lvwang.osf.model.Event;
 import com.lvwang.osf.model.Notification;
 import com.lvwang.osf.model.User;
@@ -18,7 +21,7 @@ public class NotificationService {
 	
 	@Autowired
 	@Qualifier("notificationDao")
-	private NotificationDAO notificationDao;
+	private NotificationDAOImpl notificationDao;
 	
 	@Autowired
 	@Qualifier("userService")
@@ -36,16 +39,22 @@ public class NotificationService {
 	 */
 	public int doNotify(Notification notification){
 		int id = notificationDao.save(notification);
-		refreshNotifications(notification.getNotified_user());
+		//refreshNotifications(notification.getNotified_user());
+		refreshNotification(notification);
 		return id;
 	}
 	
-	public Map<String, Integer> getNotificationsCount(int user_id){
-		return notificationDao.getNotificationsCount(user_id);
+	public Map<String, Long> getNotificationsCount(int user_id){
+		Map<String, Long> notifications = notificationDao.getNotificationsCount(user_id);
+		//Map<String, Integer> notifications_with_type = new HashMap<String, Integer>();
+		//for(Integer type: notifications.keySet()) {
+		//	notifications_with_type.put(Dic.toNotifyTypeDesc(type), notifications.get(type));
+		//}
+		return notifications;
 	}
 	
-	public void refreshNotifications(int user_id){
-		notificationDao.refresh(user_id);
+	public void refreshNotification(Notification notification){
+		notificationDao.refreshNotification(notification);
 	}
 	
 	public List<Notification> getNotifications(int user_id, int notify_type){
@@ -53,7 +62,8 @@ public class NotificationService {
 		List<Notification> notifications  = null;
 		
 		if(notify_type == Dic.NOTIFY_TYPE_COMMENT) {
-			notifications = notificationDao.getNotificationsOfType(user_id, Dic.NOTIFY_TYPE_COMMENT,Dic.NOTIFY_TYPE_COMMENT_REPLY);
+			//notifications = notificationDao.getNotificationsOfTypes(user_id, Dic.NOTIFY_TYPE_COMMENT,Dic.NOTIFY_TYPE_COMMENT_REPLY);
+			notifications = notificationDao.getNotificationsOfTypes(user_id, Arrays.asList(Dic.NOTIFY_TYPE_COMMENT,Dic.NOTIFY_TYPE_COMMENT_REPLY));
 		} else {
 			notifications = notificationDao.getNotificationsOfType(user_id, notify_type);
 		}

@@ -9,21 +9,30 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
-	<mvc:annotation-driven />	
+	<mvc:annotation-driven>
+		<mvc:argument-resolvers>
+			<bean class="com.lvwang.osf.web.RequestAttributeArgumentResolver"></bean>
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
 	<context:component-scan base-package="com.lvwang.osf.control">
 	</context:component-scan>
 	<context:component-scan base-package="com.lvwang.osf.web">
 	</context:component-scan>
+	<context:component-scan base-package="com.lvwang.osf.api">
+	</context:component-scan>
 
-	<mvc:interceptors>
+	<mvc:interceptors>	
+
 		<!-- <bean class="com.lvwang.osf.web.NotifyInterceptor"></bean> -->
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/api/v1/**"/>
 			<mvc:exclude-mapping path="/js/**"/>
 			<mvc:exclude-mapping path="/css/**"/>
 			<mvc:exclude-mapping path="/img/**"/>
 			<mvc:exclude-mapping path="/font/**"/>
 			<mvc:exclude-mapping path="/account/login"/>
+			<mvc:exclude-mapping path="/account/logout"/>
 			<mvc:exclude-mapping path="/account/register"/>
 			<mvc:exclude-mapping path="/account/activation/**"/>
 			<mvc:exclude-mapping path="/account/resetpwd"/>
@@ -48,6 +57,16 @@
 			<mvc:mapping path="/post/delete/*"/>
 			<bean class="com.lvwang.osf.web.LoginRequiredInterceptor"></bean>
 		</mvc:interceptor>
+		
+		<!-- API access interceptor -->
+		<mvc:interceptor>
+			<mvc:mapping path="/api/v1/**"/>
+			<mvc:exclude-mapping path="/api/v1/account/login"/>
+			<!-- <mvc:exclude-mapping path="/api/v1/account/logout"/> -->
+			<mvc:exclude-mapping path="/api/v1/account/register"/>	
+			<bean class="com.lvwang.osf.web.APIAccessAuthRequiredInterceptor"></bean>		
+		</mvc:interceptor>
+		
 	</mvc:interceptors>
 
 	<mvc:resources location="/js/" mapping="/js/**"/>

@@ -4,24 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-
-
-
-
-
-
-
-
-
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lvwang.osf.dao.PostDAO;
@@ -29,6 +17,7 @@ import com.lvwang.osf.model.Event;
 import com.lvwang.osf.model.Post;
 import com.lvwang.osf.model.Tag;
 import com.lvwang.osf.model.User;
+import com.lvwang.osf.search.TagIndexService;
 import com.lvwang.osf.util.Dic;
 import com.lvwang.osf.util.Property;
 
@@ -68,6 +57,10 @@ public class PostService {
 	@Autowired
 	@Qualifier("postDao")
 	private PostDAO postDao;
+	
+	@Autowired
+	@Qualifier("tagIndexService")
+	private TagIndexService tagIndexService;
 	
 	@Transactional
 	public Map<String, Object> newPost(Integer author, String title, String content, 
@@ -114,10 +107,11 @@ public class PostService {
 		
 		
 		//3 save tags
-		if(param_tags != null && param_tags.length() != 0) {				
+		if(param_tags != null && param_tags.length() != 0) {	
+			//此处会为tag建立index
 			Map<String, Object> tagsmap = tagService.newTags(tagService.toList(param_tags));
 			
-			post.setPost_tags((List<Tag>)tagsmap.get("tags"));
+			post.setPost_tags_list((List<Tag>)tagsmap.get("tags"));
 			int id = savePost(post);
 			post.setId(id);
 			
@@ -128,8 +122,7 @@ public class PostService {
 											 post.getId(), 
 											 tag.getId()
 											 );
-			}
-			
+			}			
 			map.put("tags", tagsmap.get("tags"));
 		} else {
 			int id = savePost(post);

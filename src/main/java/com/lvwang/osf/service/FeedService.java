@@ -12,6 +12,7 @@ import com.lvwang.osf.model.Event;
 import com.lvwang.osf.model.Relation;
 import com.lvwang.osf.model.Tag;
 import com.lvwang.osf.model.User;
+import com.lvwang.osf.search.EventIndexService;
 
 @Service("feedService")
 public class FeedService {
@@ -51,9 +52,11 @@ public class FeedService {
 	@Qualifier("relationService")
 	private RelationService relationService;
 	
-	public void push(int user_id, int event_id) {
-		List<Integer> followers = followService.getFollowerIDs(user_id);
-		followers.add(user_id);	//add self
+	@Autowired
+	@Qualifier("eventIndexService")
+	private EventIndexService eventIndexService;
+	
+	public void push(List<Integer> followers, int event_id) {
 		if(followers != null && followers.size()!=0) {
 			for(Integer follower: followers) {
 				feedDao.save("feed:user:"+follower, event_id);
@@ -96,16 +99,48 @@ public class FeedService {
 			updLikeCount(user_id, events);
 			addCommentCount(events);
 		}
+		System.out.println("events size: "+events.size());
 		return events;
 	}
 	
 	public List<Event> getFeedsOfPage(int user_id, int num) {
+		long all_feeds_count = feedDao.count("feed:user:"+user_id);
+		System.out.println("all feeds count :" + all_feeds_count);
 		List<Integer> event_ids = feedDao.fetch("feed:user:"+user_id, 
 												FEED_COUNT_PER_PAGE*(num-1), 
 												FEED_COUNT_PER_PAGE-1);
 		return decorateFeeds(user_id, event_ids);
 		
 	}
+	
+	public List<Event> getFeedsOfPage(int user_id, int num, int feed_id) {
+		List<Integer> event_ids = new ArrayList<Integer>(); 
+		int index = -1;
+		long all_feeds_count = feedDao.count("feed:user:"+user_id);
+		System.out.println("all feeds count :" + all_feeds_count);
+		while(index == -1) {
+			event_ids = feedDao.fetch("feed:user:"+user_id, 
+					FEED_COUNT_PER_PAGE*(num-1)-1, 
+					FEED_COUNT_PER_PAGE);
+			
+			if(FEED_COUNT_PER_PAGE*num >= all_feeds_count) {
+				break;
+			}
+			
+			num++;
+			index = event_ids.indexOf(feed_id);
+			System.out.println("index: " + index);
+		}
+		if(index != -1) {
+			event_ids = event_ids.subList(index+1, event_ids.size());
+			System.out.println("len: " + event_ids.size());
+			for(int id: event_ids) {
+				System.out.println("event id:"+id);
+			}
+		}
+		return decorateFeeds(user_id, event_ids);
+	}
+	
 	
 	public List<Event> addUserInfo(List<Event> events) {
 		if(events == null || events.size() == 0)
@@ -173,6 +208,32 @@ public class FeedService {
 	
 	private List<Integer> getEventIDsByTag(int tag_id, int start, int count) {
 		return feedDao.fetch("feed:tag:"+tag_id, start, count);
+	}
+	
+	/**
+	 * feeds search
+	 */
+	public List<Event> getFeedsByTitleOrContentContains(String term) {
+		if(term == null || term.length() == 0) return new ArrayList<Event>();
+		List<Integer> event_ids = eventIndexService.findByTitleOrContent(term);
+		
+		return decorateFeeds(0, event_ids);
+	}
+	public List<Event> getFeedsByTitleOrContentContains(int user_id, String term) {		
+		return getFeedsByTitleOrContentContains(user_id, term, 1);
+	}
+	
+	public List<Event> getFeedsByTitleOrContentContains(String term, int page) {
+		if(term == null || term.length() == 0) return new ArrayList<Event>();
+		List<Integer> event_ids = eventIndexService.findByTitleOrContent(term, (page-1)*FEED_COUNT_PER_PAGE, FEED_COUNT_PER_PAGE);
+		
+		return decorateFeeds(0, event_ids);
+	}
+	public List<Event> getFeedsByTitleOrContentContains(int user_id, String term, int page) {
+		if(term == null || term.length() == 0) return new ArrayList<Event>();
+		List<Integer> event_ids = eventIndexService.findByTitleOrContent(term, (page-1)*FEED_COUNT_PER_PAGE, FEED_COUNT_PER_PAGE);
+		
+		return decorateFeeds(user_id, event_ids);
 	}
 	
 	/**

@@ -20,6 +20,8 @@
   <script src="<%=request.getContextPath() %>/js/code.js"></script>
   <script src="<%=request.getContextPath() %>/js/like.js"></script>
   <script src="<%=request.getContextPath() %>/js/spost.js"></script>
+  <script src="<%=request.getContextPath() %>/js/search.js"></script>
+  <script src="<%=request.getContextPath() %>/js/emojione.js"></script>
 </head>
 <body>
   <%@ include file="topbar.jsp" %>
@@ -53,6 +55,9 @@
 					  <div class="short_post">
 					  	<textarea placeholder="说点什么..." id="spost_content"></textarea>
 					  	<div class="bar">
+					  		<div id="img_upload_btn">
+					  			<i class="smile icon"></i>
+					  		</div>
 					  		<div class="ui tiny blue button" id="spost_send">
 					  			发表
 					  		</div>
@@ -60,6 +65,50 @@
 					  			取消
 					  		</div>
 					  	</div>
+						<div id="emoji-list-container">
+							<div class="emoji-list">
+								<span>
+									<img class="emojione"  data-shortname=":grinning:" src="<c:url value="/img/emoji/1F600.png" />">
+								</span>
+								<span>
+									<img class="emojione"  data-shortname=":grin:" src="<c:url value="/img/emoji/1F601.png" />">
+								</span>
+								<span>
+									<img class="emojione"  data-shortname=":joy:" src="<c:url value="/img/emoji/1F602.png" />">
+								</span>
+								<span>
+									<img class="emojione"  data-shortname=":smiley:" src="<c:url value="/img/emoji/1F603.png" />">
+								</span>
+								<span>
+									<img class="emojione"  data-shortname=":smile:" src="<c:url value="/img/emoji/1F604.png" />">
+								</span>
+								<span>
+									<img class="emojione"  data-shortname=":sweat_smile:" src="<c:url value="/img/emoji/1F605.png" />">
+								</span>
+								<span>
+									<img class="emojione"  data-shortname=":laughing:" src="<c:url value="/img/emoji/1F606.png" />">
+								</span>
+								<span>
+									<img class="emojione"  data-shortname=":innocent:" src="<c:url value="/img/emoji/1F607.png" />">
+								</span>
+								<span>
+									<img class="emojione"  data-shortname=":smiling_imp:" src="<c:url value="/img/emoji/1F608.png" />">
+								</span>
+								<span>
+									<img class="emojione"  data-shortname=":imp:" src="<c:url value="/img/emoji/1F609.png" />">
+								</span>
+								<span>
+									<img class="emojione"  data-shortname=":relieved:" src="<c:url value="/img/emoji/1F613.png" />">
+								</span>
+								<span>
+									<img class="emojione"  data-shortname=":heart_eyes:" src="<c:url value="/img/emoji/1F614.png" />">
+								</span>
+								<span>
+									<img class="emojione"  data-shortname=":sunglasses:" src="<c:url value="/img/emoji/1F615.png" />">
+								</span>
+
+							</div>
+						</div>
 					  </div>			  
 					</div>
 	               </div>	
